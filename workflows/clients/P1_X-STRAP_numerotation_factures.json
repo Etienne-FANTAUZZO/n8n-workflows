@@ -1,0 +1,456 @@
+{
+  "name": "P1_X-STRAP_numerotation_factures",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "get-invoice-numbers",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        -576
+      ],
+      "id": "131ebf8c-74e9-4c17-a357-40afdb2bd484",
+      "name": "Webhook",
+      "webhookId": "e73ccd3b-be15-4add-b29c-a41a1c3be0a9"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "dataTableId": {
+          "__rl": true,
+          "value": "Yono1LLZARWd6Q4M",
+          "mode": "list",
+          "cachedResultName": "XSTRAP_factures_numeros",
+          "cachedResultUrl": "/projects/PF9ydpn7gWt8T8s2/datatables/Yono1LLZARWd6Q4M"
+        },
+        "matchType": "allConditions",
+        "limit": 1
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1,
+      "position": [
+        272,
+        -208
+      ],
+      "id": "55e7ed2d-f31e-48df-82c1-5377b1ceffaa",
+      "name": "2_Read_Last_Number"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        656,
+        -576
+      ],
+      "id": "33530386-1e78-4e3b-ad16-815530353be0",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        1536,
+        -480
+      ],
+      "id": "e9bd4b51-b2df-4e99-b350-051352e27e6c",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "dataTableId": {
+          "__rl": true,
+          "value": "Yono1LLZARWd6Q4M",
+          "mode": "list",
+          "cachedResultName": "XSTRAP_factures_numeros",
+          "cachedResultUrl": "/projects/PF9ydpn7gWt8T8s2/datatables/Yono1LLZARWd6Q4M"
+        },
+        "matchType": "allConditions",
+        "filters": {
+          "conditions": [
+            {
+              "keyValue": "1"
+            }
+          ]
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "numero_actuel": "={{ $json.newLastNumber }}"
+          },
+          "matchingColumns": [
+            "numero_actuel"
+          ],
+          "schema": [
+            {
+              "id": "numero_actuel",
+              "displayName": "numero_actuel",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1,
+      "position": [
+        1424,
+        -880
+      ],
+      "id": "f6e9cc1a-2b58-4050-9ee8-6abc14319dab",
+      "name": "Update_Last_Number"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "cf04911a-e470-4bcf-80a9-4d1a64b976be",
+              "leftValue": "={{ $json.nouveau_dernier }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1104,
+        -576
+      ],
+      "id": "2ebf961f-c427-46dd-ac26-3ea0d1a2b190",
+      "name": "04_Select_Update_Item1"
+    },
+    {
+      "parameters": {
+        "language": "python",
+        "pythonCode": "import sys\n\n# Debug - Afficher tous les items reçus\nprint(\"=\" * 50, file=sys.stderr)\nprint(\"DEBUG Calculate_Numbers - Google Sheets Version\", file=sys.stderr)\nprint(\"Nombre d'items reçus:\", len(items), file=sys.stderr)\n\nfor i, item in enumerate(items):\n    print(f\"Item {i}:\", item, file=sys.stderr)\n\n# Mode Append : items[0] = webhook, items[1] = Google Sheets\n# Récupère count depuis webhook\ncount = items[0]['json']['body']['count']\nprint(\"Count depuis webhook:\", count, file=sys.stderr)\n\n# Récupère prochain_numero depuis Google Sheets (sécurisé)\nif len(items) > 1:\n    print(\"Google Sheets trouvé à l'index 1\", file=sys.stderr)\n    print(\"Contenu Google Sheets:\", items[1]['json'], file=sys.stderr)\n    prochain_numero = items[1]['json']['Prochain_numero_facture']\n    print(\"Prochain numero depuis Google Sheets:\", prochain_numero, file=sys.stderr)\nelse:\n    print(\"ATTENTION: Pas de Google Sheets, fallback à 1\", file=sys.stderr)\n    prochain_numero = 1  # fallback si problème\n\n# Calcul des numéros séquentiels\nstart_number = prochain_numero\nend_number = prochain_numero + count - 1\nnumbers = list(range(start_number, end_number + 1))\n\n# Calcul des nouvelles valeurs pour update Google Sheets\nnouveau_dernier = end_number\nnouveau_prochain = end_number + 1\n\nprint(\"Start number:\", start_number, file=sys.stderr)\nprint(\"End number:\", end_number, file=sys.stderr)\nprint(\"Numbers générés:\", numbers, file=sys.stderr)\nprint(\"Nouveau dernier:\", nouveau_dernier, file=sys.stderr)\nprint(\"Nouveau prochain:\", nouveau_prochain, file=sys.stderr)\nprint(\"=\" * 50, file=sys.stderr)\n\nreturn [{\n    'json': {\n        'numbers': numbers,\n        'nouveau_dernier': nouveau_dernier,\n        'nouveau_prochain': nouveau_prochain\n    }\n}]"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        864,
+        -576
+      ],
+      "id": "332d5565-06e0-4c36-8947-eb09a6e0302c",
+      "name": "Calculate_Numbers"
+    },
+    {
+      "parameters": {
+        "language": "python",
+        "pythonCode": "# Mode Append : items[0] = webhook, items[1] = data table (normalement)\n\n# Récupère count depuis webhook\ncount = items[0]['json']['body']['count']\n\n# Récupère last_number depuis data table (sécurisé)\nif len(items) > 1:\n    last_number = items[1]['json']['numero_actuel']\nelse:\n    last_number = 0  # fallback si problème\n\n# Calcul\nstart_number = last_number + 1\nend_number = last_number + count\nnumbers = list(range(start_number, end_number + 1))\n\nreturn [{\n    'json': {\n        'numbers': numbers,\n        'newLastNumber': end_number\n    }\n}]"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        224,
+        16
+      ],
+      "id": "b80c1e4e-7c61-46bd-867a-b45c36124b77",
+      "name": "Calculate_Numbers1"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1tAmqjKG4QCileWXEmxG8Umyp5sgQgdKNNrYmYQAxcx4",
+          "mode": "list",
+          "cachedResultName": "numero_facture_automatisation",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1tAmqjKG4QCileWXEmxG8Umyp5sgQgdKNNrYmYQAxcx4/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "numero_facture",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1tAmqjKG4QCileWXEmxG8Umyp5sgQgdKNNrYmYQAxcx4/edit#gid=0"
+        },
+        "options": {
+          "dataLocationOnSheet": {
+            "values": {
+              "rangeDefinition": "specifyRange"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        272,
+        -432
+      ],
+      "id": "b90ee98f-9c5f-4c41-bc6f-69dd04a13c46",
+      "name": "Get row(s) in sheet",
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "mi7riG0ItBD23dAI",
+          "name": "X-STRAP-factures"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "language": "python",
+        "pythonCode": "import sys\n\n# Debug - Afficher tous les items reçus\nprint(\"=\" * 50, file=sys.stderr)\nprint(\"DEBUG Calculate_Numbers\", file=sys.stderr)\nprint(\"Nombre d'items reçus:\", len(items), file=sys.stderr)\n\nfor i, item in enumerate(items):\n    print(f\"Item {i}:\", item, file=sys.stderr)\n\n# Mode Append : items[0] = webhook, items[1] = data table (normalement)\n# Récupère count depuis webhook\ncount = items[0]['json']['body']['count']\nprint(\"Count depuis webhook:\", count, file=sys.stderr)\n\n# Récupère last_number depuis data table (sécurisé)\nif len(items) > 1:\n    print(\"Data Table trouvée à l'index 1\", file=sys.stderr)\n    print(\"Contenu Data Table:\", items[1]['json'], file=sys.stderr)\n    last_number = items[1]['json']['numero_actuel']\n    print(\"Last number depuis Data Table:\", last_number, file=sys.stderr)\nelse:\n    print(\"ATTENTION: Pas de Data Table, fallback à 0\", file=sys.stderr)\n    last_number = 0  # fallback si problème\n\n# Calcul\nstart_number = last_number + 1\nend_number = last_number + count\nnumbers = list(range(start_number, end_number + 1))\n\nprint(\"Start number:\", start_number, file=sys.stderr)\nprint(\"End number:\", end_number, file=sys.stderr)\nprint(\"Numbers générés:\", numbers, file=sys.stderr)\nprint(\"=\" * 50, file=sys.stderr)\n\nreturn [{\n    'json': {\n        'numbers': numbers,\n        'newLastNumber': end_number\n    }\n}]"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        864,
+        -400
+      ],
+      "id": "d4ba1b3e-d72c-4eed-937a-19afafbaff39",
+      "name": "Calculate_Numbers2"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1tAmqjKG4QCileWXEmxG8Umyp5sgQgdKNNrYmYQAxcx4",
+          "mode": "list",
+          "cachedResultName": "numero_facture_automatisation",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1tAmqjKG4QCileWXEmxG8Umyp5sgQgdKNNrYmYQAxcx4/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "numero_facture",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1tAmqjKG4QCileWXEmxG8Umyp5sgQgdKNNrYmYQAxcx4/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Dernier_numero_facture_cree": "={{ $('Calculate_Numbers').item.json.nouveau_dernier }}",
+            "Prochain_numero_facture": "={{ $('Calculate_Numbers').item.json.nouveau_prochain }}"
+          },
+          "matchingColumns": [
+            "Dernier_numero_facture_cree"
+          ],
+          "schema": [
+            {
+              "id": "ID",
+              "displayName": "ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Dernier_numero_facture_cree",
+              "displayName": "Dernier_numero_facture_cree",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Prochain_numero_facture",
+              "displayName": "Prochain_numero_facture",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1312,
+        -672
+      ],
+      "id": "3c0ed4c9-7b39-4f8d-8fc8-ef8d732bd585",
+      "name": "Update row in sheet",
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "mi7riG0ItBD23dAI",
+          "name": "X-STRAP-factures"
+        }
+      }
+    }
+  ],
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "n8n.srv856796.hstgr.cloud",
+            "user-agent": "node",
+            "content-length": "12",
+            "accept": "*/*",
+            "accept-encoding": "identity",
+            "accept-language": "*",
+            "cache-control": "no-cache",
+            "content-type": "application/json",
+            "pragma": "no-cache",
+            "sec-fetch-mode": "cors",
+            "x-forwarded-for": "35.175.19.243",
+            "x-forwarded-host": "n8n.srv856796.hstgr.cloud",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "ae30b2dac8a7",
+            "x-real-ip": "35.175.19.243",
+            "x-v0-dev": "true",
+            "x-vercel-id": "cdg1::skml5-1767164483807-6d52a0f7b323"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "count": 48
+          },
+          "webhookUrl": "https://n8n.srv856796.hstgr.cloud/webhook/get-invoice-numbers",
+          "executionMode": "production"
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "2_Read_Last_Number": {
+      "main": [
+        []
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Calculate_Numbers",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update_Last_Number": {
+      "main": [
+        []
+      ]
+    },
+    "Calculate_Numbers": {
+      "main": [
+        [
+          {
+            "node": "04_Select_Update_Item1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "04_Select_Update_Item1": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Update row in sheet": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": true
+  },
+  "versionId": "05348323-9f99-46d3-a755-60e8a859890b",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "316a125cfd580042f9bc53fd60563ce45811f60464f819f6c6d8edfb9bec8e89"
+  },
+  "id": "faXdNkmYF089AqdX",
+  "tags": []
+}

@@ -1,0 +1,204 @@
+{
+  "name": "AIA_SITE_INTERNET-CHAT_MESSAGE",
+  "nodes": [
+    {
+      "parameters": {
+        "respondWith": "allIncomingItems",
+        "options": {
+          "responseCode": 200
+        }
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        736,
+        -48
+      ],
+      "id": "49cac655-928e-4b70-b3b6-47d7db89aa1f",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "8f1970fe-5fb9-4003-9ab9-b841538ccad7",
+              "name": "message",
+              "value": "={{ $json.body.message }}",
+              "type": "string"
+            },
+            {
+              "id": "bcaec6de-c49d-48ca-b221-e0ca765e628f",
+              "name": "date",
+              "value": "={{ $json.body.timestamp }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -224,
+        -48
+      ],
+      "id": "b45aa1a1-ee38-4836-96e8-d4d9084a4576",
+      "name": "Clean_data"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "527521e2-5ec3-4dee-ab76-39380769b6af",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -448,
+        -48
+      ],
+      "id": "0a3d92a6-6322-4364-a36f-b734ee00d6b7",
+      "name": "Webhook",
+      "webhookId": "527521e2-5ec3-4dee-ab76-39380769b6af"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.5-flash",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.5-flash"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "**CONTEXTE**\nTu es un Business Analyste spécialisé en automatisation pour PME/TPE. Tu réponds à des prospects qui visitent le site web d'AIA 3.0, une agence d'automatisation pour entrepreneurs non-techniques.\n\n**RÔLE**\nExpert en qualification de projets d'automatisation, tu guides les prospects à travers un diagnostic structuré pour identifier leurs besoins réels et évaluer la faisabilité technique de leur demande.\n\n**OBJECTIF**\nQualifier chaque projet en 5 minutes via 6 questions (3 phases × 2 questions) :\n- 1 question ouverte (contexte qualitatif)\n- 1 question à choix multiple (qualification rapide)\n\n**CONTRAINTES STRICTES**\n1. Le prospect a DÉJÀ décrit son besoin initial - tu dois t'appuyer dessus\n2. Afficher la progression à chaque phase (\"Questions X-Y / 6 | Étape Z/3\")\n3. Poser EXACTEMENT 2 questions simultanément (1 ouverte + 1 QCM)\n4. ATTENDRE les 2 réponses complètes avant de passer à la phase suivante\n5. NE JAMAIS re-demander ce que le prospect a déjà dit\n6. Adopter un ton pédagogique, bienveillant et encourageant\n7. Utiliser des émojis pour rendre le parcours visuellement agréable\n8. Numéroter clairement : Q1, Q2, Q3, Q4, Q5, Q6\n9. Donner des exemples concrets pour chaque question ouverte\n10. Générer automatiquement la synthèse après Q6\n\n**SCORING AUTOMATIQUE** (à calculer en fin de parcours)\n- Outils compatibles (Q3) : +3 points (Google/Microsoft) | +1 point (autres avec API)\n- Fréquence élevée (Q6) : +2 points (quotidien/plusieurs fois par jour)\n- Impact élevé (Q5) : +2 points (>10h/semaine ou >2 personnes)\n- Déclencheur automatisable (Q2) : +2 points (email/heure fixe)\n- Résultat clair (Q4) : +1 point (si mesurable/précis)\n\nScore ≥7 = Projet qualifié | Score 4-6 = Ajustements nécessaires | Score <4 = Non qualifié",
+              "role": "model"
+            },
+            {
+              "content": "=**INFORMATION INITIALE DU PROSPECT**\n\nLe prospect a répondu à : \"Quel processus souhaitez-vous automatiser ?\"\n**Sa réponse :** {{ $json.message }}\n\n---\n\n**RÈGLES DE CONVERSATION**\n\n1. **FORMAT DES RÉPONSES :**\n   - Messages COURTS (3-4 lignes max)\n   - Utilise des émojis pour la clarté visuelle\n   - Une seule question à la fois\n   - Attends la réponse avant de poser la question suivante\n\n2. **STRUCTURE DES QUESTIONS :**\n   - Toujours proposer des choix multiples avec lettres (A, B, C, D, E)\n   - Toujours inclure option \"E. Autre (précisez)\"\n   - Numéroter chaque question : Q1/6, Q2/6, etc.\n   - Montrer la progression avec des barres : ▓░░░░░\n\n3. **MAPPING DES VARIABLES :**\n\nAprès chaque réponse, EXTRAIS et STOCKE :\n\n**Q1 →** `declencheur` (A/B/C/D/E) + `declencheur_details` (si E)\n**Q2 →** `niveau_technique` (A/B/C/D)\n**Q3 →** `outils_utilises` (A/B/C/D/E/F - multiple possible) + `outils_details`\n**Q4 →** `resultat_attendu` (texte libre)\n**Q5 →** `temps_par_semaine` (heures) + `nombre_personnes` (nombre)\n**Q6 →** `frequence` (A/B/C/D/E)\n\n4. **APRÈS LA Q6 :**\n   - NE GÉNÈRE PAS de synthèse\n   - NE CALCULE PAS de score\n   - Dis simplement : \"Merci ! Vos réponses ont été enregistrées. Vous allez recevoir votre diagnostic personnalisé par email. 🚀\"\n\n---\n\n**DÉBUT DE LA CONVERSATION**\n\n---\n\n👋 Merci ! Je vois que vous voulez automatiser :\n**\"{{ $json.message }}\"**\n\n⏱️ **6 questions rapides (5 min)** pour évaluer la faisabilité.\n\n🚀 C'est parti !\n\n---\n\n**Q1/6** ▓░░░░░\n\n⚡ **Qu'est-ce qui déclenche cette tâche aujourd'hui ?**\n\n**A.** Réception d'un email/message\n**B.** Heure fixe (tous les jours/semaines/mois)\n**C.** Je le fais manuellement quand j'ai le temps\n**D.** Événement externe (commande, paiement, livraison)\n**E.** Autre (précisez)\n\n---\n\n**[ATTENDS LA RÉPONSE Q1]**\n\n**Après réception Q1 → Pose Q2**\n\n---\n\n**Q2/6** ▓▓░░░░\n\n👤 **Votre niveau avec les outils numériques ?**\n\n**A.** Débutant (email + Excel basique)\n**B.** Intermédiaire (Google Drive, Sheets, plusieurs outils cloud)\n**C.** Avancé (j'ai testé Zapier/Make)\n**D.** Expert (je crée des workflows complexes)\n\n---\n\n**[ATTENDS LA RÉPONSE Q2]**\n\n**Après réception Q2 → Pose Q3**\n\n---\n\n**Q3/6** ▓▓▓░░░\n\n🛠️ **Quels outils utilisez-vous ?** *(plusieurs choix possibles)*\n\n**A.** Google (Gmail, Drive, Sheets, Docs, Calendar)\n**B.** Microsoft (Outlook, Excel, OneDrive, Teams)\n**C.** CRM (précisez lequel)\n**D.** Facturation/Gestion (précisez)\n**E.** E-commerce/Livraison (précisez)\n**F.** Autre (précisez)\n\n---\n\n**[ATTENDS LA RÉPONSE Q3]**\n\n**Après réception Q3 → Pose Q4**\n\n---\n\n**Q4/6** ▓▓▓▓░░\n\n🎯 **Quel résultat attendez-vous ?**\n\n💡 Ex : \"Un tableau Sheets mis à jour automatiquement\" ou \"Un email envoyé sans intervention\"\n\n---\n\n**[ATTENDS LA RÉPONSE Q4]**\n\n**Après réception Q4 → Pose Q5**\n\n---\n\n**Q5/6** ▓▓▓▓▓░\n\n⏱️ **Temps et personnes impliquées ?**\n\n💡 Ex : \"2 personnes × 3h/semaine\" ou \"Moi seul, 1h/jour\"\n\n---\n\n**[ATTENDS LA RÉPONSE Q5]**\n\n**Après réception Q5 → Pose Q6**\n\n---\n\n**Q6/6** ▓▓▓▓▓▓\n\n📅 **À quelle fréquence ?**\n\n**A.** Plusieurs fois par jour (> 5×)\n**B.** Quotidienne (1-5×/jour)\n**C.** Hebdomadaire (2-5×/semaine)\n**D.** Mensuelle (1-4×/mois)\n**E.** Autre (précisez)\n\n---\n\n**[ATTENDS LA RÉPONSE Q6]**\n\n**Après réception Q6 → Message de fin**\n\n---\n\n✅ Merci ! Vos réponses ont été enregistrées.\n\n📧 Vous allez recevoir votre **diagnostic personnalisé** par email avec :\n- Faisabilité technique\n- Gain de temps estimé\n- Prochaines étapes\n\nÀ très vite ! 🚀\n\n**AIA 3.0**"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1,
+      "position": [
+        -16,
+        -48
+      ],
+      "id": "93109d0f-1b36-475f-9e51-0eacbc51074c",
+      "name": "Message a model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "2hhoC0GUpHdhPSCL",
+          "name": "AIA-SITE_INTERNET"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "Je dois simplifier l'output poru que ce soit clair sur le front ",
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        336,
+        -160
+      ],
+      "id": "7c3b16d5-60a1-4bcf-bd02-ce4930d216f3",
+      "name": "Sticky Note"
+    }
+  ],
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "n8n.srv856796.hstgr.cloud",
+            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36",
+            "content-length": "140",
+            "accept": "*/*",
+            "accept-encoding": "gzip, deflate, br, zstd",
+            "accept-language": "fr-FR,fr;q=0.9,en-US;q=0.8,en;q=0.7",
+            "content-type": "application/json",
+            "origin": "https://preview-landing-page-design-kzmgz8ehs3tu7uez40fl.vusercontent.net",
+            "priority": "u=1, i",
+            "referer": "https://preview-landing-page-design-kzmgz8ehs3tu7uez40fl.vusercontent.net/",
+            "sec-ch-ua": "\"Google Chrome\";v=\"143\", \"Chromium\";v=\"143\", \"Not A(Brand\";v=\"24\"",
+            "sec-ch-ua-mobile": "?0",
+            "sec-ch-ua-platform": "\"Windows\"",
+            "sec-fetch-dest": "empty",
+            "sec-fetch-mode": "cors",
+            "sec-fetch-site": "cross-site",
+            "x-forwarded-for": "172.20.0.1",
+            "x-forwarded-host": "n8n.srv856796.hstgr.cloud",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "ae30b2dac8a7",
+            "x-real-ip": "172.20.0.1"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "type": "process_automation_inquiry",
+            "message": "TEST : j'ai un projet d'automatisation de factures ",
+            "timestamp": "2025-12-21T23:11:00.537Z"
+          },
+          "webhookUrl": "https://n8n.srv856796.hstgr.cloud/webhook/527521e2-5ec3-4dee-ab76-39380769b6af",
+          "executionMode": "production"
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Clean_data": {
+      "main": [
+        [
+          {
+            "node": "Message a model",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Clean_data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "9797fb92-99a5-48b6-9fa3-155c60f3c23c",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "316a125cfd580042f9bc53fd60563ce45811f60464f819f6c6d8edfb9bec8e89"
+  },
+  "id": "49KSzfVFvjKQaeGR",
+  "tags": []
+}

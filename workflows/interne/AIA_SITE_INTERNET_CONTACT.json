@@ -1,0 +1,156 @@
+{
+  "name": "AIA_SITE_INTERNET_CONTACT",
+  "nodes": [
+    {
+      "parameters": {
+        "respondWith": "allIncomingItems",
+        "options": {
+          "responseCode": 200
+        }
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        320,
+        -48
+      ],
+      "id": "b70a0001-cef2-4657-beba-ddf28e6433e3",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "04c7201a-09e7-482d-a09b-93afb76bed1d",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -400,
+        -48
+      ],
+      "id": "fd5f8282-f79d-450a-870e-4c1492a33193",
+      "name": "Webhook",
+      "webhookId": "04c7201a-09e7-482d-a09b-93afb76bed1d"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "321145db-bfb4-4306-8a5b-e2b400256488",
+              "name": "mail",
+              "value": "={{ $json.body.from }}",
+              "type": "string"
+            },
+            {
+              "id": "fc883c26-dddd-4193-bdfb-cfd859f97c8d",
+              "name": "name",
+              "value": "={{ $json.body.fromName }}",
+              "type": "string"
+            },
+            {
+              "id": "8e3a04fd-6f09-4787-a3c3-444f2d2b6a16",
+              "name": "objet",
+              "value": "={{ $json.body.subject }}",
+              "type": "string"
+            },
+            {
+              "id": "8f1970fe-5fb9-4003-9ab9-b841538ccad7",
+              "name": "message",
+              "value": "={{ $json.body.message }}",
+              "type": "string"
+            },
+            {
+              "id": "bcaec6de-c49d-48ca-b221-e0ca765e628f",
+              "name": "date",
+              "value": "={{ $json.body.timestamp }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -160,
+        -48
+      ],
+      "id": "9313873f-f8e9-45b0-8d59-80b500626de8",
+      "name": "Clean_data"
+    },
+    {
+      "parameters": {
+        "sendTo": "contact.aia.3.0@gmail.com",
+        "subject": "=🎉 AIA 🟢⚪: SITE INTERNET - {{ $json.objet }}",
+        "emailType": "text",
+        "message": "={{ $json.name }} avec l'adresse mail {{ $json.mail }}\n\nA laissé un message sur le site internet : \n\nSon message : \n{{ $json.message }}\n\nA cette date :\n{{ $json.date }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        48,
+        -48
+      ],
+      "id": "8ba0d1e3-b163-4c8f-ba13-0750fbad3b04",
+      "name": "Send a message",
+      "webhookId": "214c7764-b08b-45d4-aa3c-99b5a74c1e3f",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "Twr7X6xRdvIQQENz",
+          "name": "SITE INTERNET AIA"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Clean_data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Clean_data": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "a54af881-cb93-4015-a75d-97a98101c608",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "316a125cfd580042f9bc53fd60563ce45811f60464f819f6c6d8edfb9bec8e89"
+  },
+  "id": "1JGNtRyDjcg7s1T5",
+  "tags": []
+}

@@ -1,0 +1,2876 @@
+{
+  "name": "SAVOUR_P1_version_2.0",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "caf26929-d0be-40a5-ad44-60620abf1969",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -528,
+        752
+      ],
+      "id": "92d12474-2a98-45ff-a729-7f5dce525fe7",
+      "name": "1_Webhook",
+      "webhookId": "caf26929-d0be-40a5-ad44-60620abf1969"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d7afa4f6-5a1f-49d4-92a1-8a824937816f",
+              "name": "prix",
+              "value": "={{ $json.prix }}",
+              "type": "string"
+            },
+            {
+              "id": "acd7126b-b4d5-4c55-a244-33e070f6ff95",
+              "name": "adresse_restaurant",
+              "value": "={{ $json.adresse_restaurant }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2944,
+        176
+      ],
+      "id": "bba180e6-503b-487e-9906-5531a6412eba",
+      "name": "3p_SET_PRIX1",
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $binary.kbis !== undefined }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "id": "927e0eae-912c-4821-a141-7bd3f094a5cc"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "KBIS+RIB"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "36b5e8f9-ddb5-4235-9521-01361e0d9cb8",
+                    "leftValue": "={{ $binary.kbis === undefined }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "RIB_only"
+            }
+          ]
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.3,
+      "position": [
+        -272,
+        752
+      ],
+      "id": "ae504d64-b460-4672-916d-629561389f6f",
+      "name": "02_switch-KBIS_OK_or_NOT_OK"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d7afa4f6-5a1f-49d4-92a1-8a824937816f",
+              "name": "prix",
+              "value": "={{ $json.body.prix_mensuel }}",
+              "type": "string"
+            },
+            {
+              "id": "3fe20963-f881-40bd-b23d-799eac5db2ed",
+              "name": "adresse_restaurant",
+              "value": "={{ $json.body.adresse_restaurant }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -304,
+        1296
+      ],
+      "id": "1efa20c3-7184-4842-8e53-55c51bfd1b26",
+      "name": "03_set_prix",
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d7afa4f6-5a1f-49d4-92a1-8a824937816f",
+              "name": "prix",
+              "value": "={{ $json.body.prix_mensuel }}",
+              "type": "string"
+            },
+            {
+              "id": "acd7126b-b4d5-4c55-a244-33e070f6ff95",
+              "name": "adresse_restaurant",
+              "value": "={{ $json.body.adresse_restaurant }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -272,
+        176
+      ],
+      "id": "b7d55908-5024-45b7-a0e7-009e63dd40cd",
+      "name": "01_set_prix"
+    },
+    {
+      "parameters": {
+        "content": "",
+        "height": 2064,
+        "width": 7232,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1360,
+        -224
+      ],
+      "id": "252086d5-8338-43dc-a5a3-b04f361d3ed2",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $binary.kbis.mimeType }}",
+                    "rightValue": "application/pdf",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "36e6b387-fd9b-495b-b84f-fff2cc43a23f"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "KBIS"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "7e3dedea-e8c5-41a0-97c8-71b9deebf09a",
+                    "leftValue": "={{ $binary.rib.mimeType }}",
+                    "rightValue": "application/pdf",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "RIB"
+            }
+          ]
+        },
+        "looseTypeValidation": true,
+        "options": {
+          "allMatchingOutputs": true
+        }
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.3,
+      "position": [
+        112,
+        576
+      ],
+      "id": "58b9b1b4-9b88-49a5-9fe6-f146bd343232",
+      "name": "04_Switch_KBIS_OK"
+    },
+    {
+      "parameters": {
+        "operation": "pdf",
+        "binaryPropertyName": "kbis",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        368,
+        448
+      ],
+      "id": "223d7ed6-8263-4549-b1d2-c253fb16255d",
+      "name": "06_PDF_KBIS_vers_Texte"
+    },
+    {
+      "parameters": {
+        "operation": "pdf",
+        "binaryPropertyName": "rib",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        368,
+        656
+      ],
+      "id": "a8d8cdc7-3ea6-42a0-9c72-ebc8df047b50",
+      "name": "07_PDF_RIB_Extract",
+      "retryOnFail": true,
+      "maxTries": 2,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "operation": "pdf",
+        "binaryPropertyName": "rib",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        368,
+        848
+      ],
+      "id": "18ac010d-b13f-4d89-9dee-95f67d9a23e8",
+      "name": "08_RIB_PDF_Extract",
+      "retryOnFail": true,
+      "maxTries": 2,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "resource": "image",
+        "operation": "analyze",
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o",
+          "mode": "list",
+          "cachedResultName": "GPT-4O"
+        },
+        "text": "Voici une image contenant un RIB bancaire.\nAnalyse attentivement le visuel et extrait toutes les informations visibles.\n\nAccorde une attention particulière au **nom du titulaire du compte** (souvent une entreprise ou une société). Il peut apparaître en haut, en bas ou à proximité du RIB. Utilise uniquement ce qui est visible dans l'image.\n\nRetourne toutes les informations au format JSON strictement valide, dans cette structure :\n## 🎯 INSTRUCTIONS D'EXTRACTION\n\nExtraire du RIB les informations suivantes :\n\n**DEBTOR_NAME** : NOM de l'entreprise en MAJUSCULES (ex: \"GEMIGNANI\")\n\n**DEBTOR_ADDRESS** : Adresse du titulaire (numéro + rue) en MAJUSCULES, SANS code postal ni ville (ex: \"122 RUE DU JARDIN\")\n\n**DEBTOR_POSTAL_CODE** : Code postal uniquement (ex: \"40230\")\n\n**DEBTOR_CITY** : Ville uniquement en MAJUSCULES (ex: \"BENESSE MAREMNE\")\n\n**IBAN** : IBAN complet SANS espaces (ex: \"FR7611306000151513547000053\")\n\n**BIC** : Code BIC en MAJUSCULES (ex: \"AGRIFRPP813\")\n\n\n---\n\n## 📤 FORMAT DE RÉPONSE\n\nRetourne **UNIQUEMENT** un objet JSON valide avec ces champs :\n\n\n        \"rib_text\": {\n          \"DEBTOR_NAME\": \"KBS37\",\n          \"DEBTOR_ADDRESS\": \"17 PLACE DU GRAND MARCHE\",\n          \"DEBTOR_POSTAL_CODE\": \"37000\",\n          \"DEBTOR_CITY\": \"TOURS\",\n          \"IBAN\": \"FR7616958000016424219729418\",\n          \"BIC\": \"QNTOFRP1XXX\"\n\n**IMPORTANT** :\n- Retourne UNIQUEMENT ce JSON\n- Sans texte explicatif\n- Sans balises markdown ```json\n- Sans commentaires",
+        "inputType": "base64",
+        "binaryPropertyName": "rib",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        368,
+        1024
+      ],
+      "id": "8cdd17ac-7e25-413a-9273-1019debc8905",
+      "name": "09_RIB_Image_Extract_GPT",
+      "credentials": {
+        "openAiApi": {
+          "id": "0YOT7LgH7AEI88xI",
+          "name": "OpenAi account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $binary.rib.mimeType }}",
+                    "rightValue": "application/pdf",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "36e6b387-fd9b-495b-b84f-fff2cc43a23f"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "rib_PDF"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "7e3dedea-e8c5-41a0-97c8-71b9deebf09a",
+                    "leftValue": "true",
+                    "rightValue": "true",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "rib_IMAGE"
+            }
+          ]
+        },
+        "looseTypeValidation": true,
+        "options": {
+          "allMatchingOutputs": false
+        }
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.3,
+      "position": [
+        128,
+        944
+      ],
+      "id": "a9da33cf-0794-413a-afd4-9527d79b7b1e",
+      "name": "05_Switch_NOT_KBIS"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "fe085ad1-3881-4cba-a39e-d9c25a9ecf79",
+              "name": "kbis_text",
+              "value": "={{ $json.text }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1008,
+        448
+      ],
+      "id": "5e414e6b-e325-4c69-a4f1-f6d7382b3c3d",
+      "name": "14_SET_KBIS"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e9cad721-ccb4-467d-ae93-c3293d4f8800",
+              "name": "rib_text",
+              "value": "={{ $json.message.content.DEBTOR_NAME }} - {{ $json.message.content.DEBTOR_ADDRESS }} - {{ $json.message.content.DEBTOR_POSTAL_CODE }} - {{ $json.message.content.DEBPTOR_CITY }} - {{ $json.message.content.IBAN }} - {{ $json.message.content.BIC }}",
+              "type": "string"
+            },
+            {
+              "id": "0d493266-626c-46b6-adbb-04ff76ab8a81",
+              "name": "DEBTOR_NAME",
+              "value": "={{ $json.message.content.DEBTOR_NAME }}",
+              "type": "string"
+            },
+            {
+              "id": "368a20ed-34e0-4b0b-8915-9148b9e5cd60",
+              "name": "DEBTOR_ADRESS",
+              "value": "={{ $json.message.content.DEBTOR_ADDRESS }}",
+              "type": "string"
+            },
+            {
+              "id": "68c863cd-fa7b-469e-8668-4c6ada93ca4d",
+              "name": "DEBTOR_POSTAL_CODE",
+              "value": "={{ $json.message.content.DEBTOR_POSTAL_CODE }}",
+              "type": "string"
+            },
+            {
+              "id": "dc6637bc-607f-4537-b301-d7218e9b5141",
+              "name": "DEBPTOR_CITY",
+              "value": "={{ $json.message.content.DEBPTOR_CITY }}",
+              "type": "string"
+            },
+            {
+              "id": "0ca373a1-e079-4b9b-8045-e2e7a9078967",
+              "name": "IBAN",
+              "value": "={{ $json.message.content.IBAN }}",
+              "type": "string"
+            },
+            {
+              "id": "ec5719be-e0d5-477c-aae4-279ee5fdbb19",
+              "name": "BIC",
+              "value": "={{ $json.message.content.BIC }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1008,
+        848
+      ],
+      "id": "496a2aed-c3a6-46f4-8b11-12b9df5c0cb9",
+      "name": "15_SET_RIB_from_PDF",
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e9cad721-ccb4-467d-ae93-c3293d4f8800",
+              "name": "rib_text",
+              "value": "={{ $json.message.content.DEBTOR_NAME }} - {{ $json.message.content.DEBTOR_ADDRESS }} - {{ $json.message.content.DEBTOR_POSTAL_CODE }} - {{ $json.message.content.DEBTOR_CITY }} - {{ $json.message.content.IBAN }} - {{ $json.message.content.BIC }}",
+              "type": "string"
+            },
+            {
+              "id": "0d493266-626c-46b6-adbb-04ff76ab8a81",
+              "name": "DEBTOR_NAME",
+              "value": "={{ $json.message.content.DEBTOR_NAME }}",
+              "type": "string"
+            },
+            {
+              "id": "368a20ed-34e0-4b0b-8915-9148b9e5cd60",
+              "name": "DEBTOR_ADRESS",
+              "value": "={{ $json.message.content.DEBTOR_ADDRESS }}",
+              "type": "string"
+            },
+            {
+              "id": "68c863cd-fa7b-469e-8668-4c6ada93ca4d",
+              "name": "DEBTOR_POSTAL_CODE",
+              "value": "={{ $json.message.content.DEBTOR_POSTAL_CODE }}",
+              "type": "string"
+            },
+            {
+              "id": "dc6637bc-607f-4537-b301-d7218e9b5141",
+              "name": "DEBPTOR_CITY",
+              "value": "={{ $json.message.content.DEBTOR_CITY }}",
+              "type": "string"
+            },
+            {
+              "id": "0ca373a1-e079-4b9b-8045-e2e7a9078967",
+              "name": "IBAN",
+              "value": "={{ $json.message.content.IBAN }}",
+              "type": "string"
+            },
+            {
+              "id": "ec5719be-e0d5-477c-aae4-279ee5fdbb19",
+              "name": "BIC",
+              "value": "={{ $json.message.content.BIC }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1008,
+        1024
+      ],
+      "id": "52811b14-d5d1-41db-a164-23537d47dc66",
+      "name": "16_SET_RIB_from_IMAGE",
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        1312,
+        928
+      ],
+      "id": "16b4f9e1-f9e2-42aa-957b-d8172e48d118",
+      "name": "17_MERGE_RIB_NOT_KBIS",
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d7afa4f6-5a1f-49d4-92a1-8a824937816f",
+              "name": "prix",
+              "value": "={{ $json.prix }}",
+              "type": "string"
+            },
+            {
+              "id": "3fe20963-f881-40bd-b23d-799eac5db2ed",
+              "name": "adresse_restaurant",
+              "value": "={{ $json.adresse_restaurant }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1008,
+        1296
+      ],
+      "id": "090bd2bc-24c9-4542-94c8-717f4fd4744c",
+      "name": "18_SET_PRIX",
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        1520,
+        1024
+      ],
+      "id": "91767342-b66e-4f89-a1e1-b35fd8127a17",
+      "name": "19_MERGE_RIB_PRIX_ADDRESS"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "720f5257-bb23-45c8-ab6a-50043aff54d0",
+              "name": "account_holder",
+              "value": "={{ $json.DEBTOR_NAME }}",
+              "type": "string"
+            },
+            {
+              "id": "e90fc8d9-d89b-40c1-bcd7-1cbc15e8c27a",
+              "name": "adresse_rib",
+              "value": "={{ $json.DEBTOR_ADRESS }} - {{ $json.DEBPTOR_CITY }} - {{ $json.DEBTOR_POSTAL_CODE }}",
+              "type": "string"
+            },
+            {
+              "id": "bf21ccde-6d45-4451-ad80-90e3710a793d",
+              "name": "secteur",
+              "value": "alimentaire et restauration",
+              "type": "string"
+            },
+            {
+              "id": "46ff39ad-6e03-4777-b818-b51fd88a5730",
+              "name": "Adresse_restaurant",
+              "value": "={{ $json.adresse_restaurant }}",
+              "type": "string"
+            },
+            {
+              "id": "50a84f6d-a748-4b37-a553-cdac9cb38af8",
+              "name": "rib_text",
+              "value": "={{ $json.rib_text }}",
+              "type": "string"
+            },
+            {
+              "id": "fcd39da6-2a84-47d2-95ce-f32901d8e0e3",
+              "name": "prix",
+              "value": "={{ $json.prix }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1728,
+        1024
+      ],
+      "id": "94ad1d74-edd6-4cce-8f73-61daabbef278",
+      "name": "20_Prepare_Perplexity_Query",
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "2244bd70-4b5a-4c0f-9f1d-4b1d4dd8eec1",
+                    "leftValue": "={{ $json.Adresse_restaurant }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "notEmpty",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "address"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.Adresse_restaurant }}",
+                    "rightValue": "\"\"",
+                    "operator": {
+                      "type": "string",
+                      "operation": "empty",
+                      "singleValue": true
+                    },
+                    "id": "3f5e5790-b59d-474c-b6b8-70f8e6f3dbea"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "address"
+            }
+          ]
+        },
+        "looseTypeValidation": true,
+        "options": {
+          "allMatchingOutputs": false
+        }
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.3,
+      "position": [
+        1968,
+        1024
+      ],
+      "id": "1023efd3-40c8-4d8f-8777-987345d0edef",
+      "name": "21_Switch_rules_adresse"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e9cad721-ccb4-467d-ae93-c3293d4f8800",
+              "name": "rib_text",
+              "value": "={{ $json.rib_text }}",
+              "type": "string"
+            },
+            {
+              "id": "720f5257-bb23-45c8-ab6a-50043aff54d0",
+              "name": "account_holder",
+              "value": "={{ $json.account_holder }}",
+              "type": "string"
+            },
+            {
+              "id": "e90fc8d9-d89b-40c1-bcd7-1cbc15e8c27a",
+              "name": "address",
+              "value": "={{ $json.Adresse_restaurant }}",
+              "type": "string"
+            },
+            {
+              "id": "859edb69-2e9e-4e48-b0f4-edb446b37247",
+              "name": "prix_mensuel",
+              "value": "={{ $json.prix }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2192,
+        896
+      ],
+      "id": "dc61e2d9-2cf1-4739-a1f4-d40d76da0f6a",
+      "name": "22_Adresse_restaurant",
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e9cad721-ccb4-467d-ae93-c3293d4f8800",
+              "name": "rib_text",
+              "value": "={{ $json.rib_text }}",
+              "type": "string"
+            },
+            {
+              "id": "720f5257-bb23-45c8-ab6a-50043aff54d0",
+              "name": "account_holder",
+              "value": "={{ $json.account_holder }}",
+              "type": "string"
+            },
+            {
+              "id": "e90fc8d9-d89b-40c1-bcd7-1cbc15e8c27a",
+              "name": "address",
+              "value": "={{ $json.adresse_rib }}",
+              "type": "string"
+            },
+            {
+              "id": "859edb69-2e9e-4e48-b0f4-edb446b37247",
+              "name": "prix_mensuel",
+              "value": "={{ $json.prix }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2192,
+        1168
+      ],
+      "id": "f95bf164-a894-4e2a-9e5f-2c0f91e808cd",
+      "name": "23_Adresse_rib",
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "84c26edc-7567-4539-a017-f13f54542f9e",
+              "name": "Account_holder",
+              "value": "={{ $json.account_holder }}",
+              "type": "string"
+            },
+            {
+              "id": "282a9b9e-757b-4e01-8793-1ef9bbd2c1f1",
+              "name": "address",
+              "value": "={{ $json.address }}",
+              "type": "string"
+            },
+            {
+              "id": "16be2b88-af4e-4b03-ade5-c475c6fef8bf",
+              "name": "rib_text",
+              "value": "={{ $json.rib_text }}",
+              "type": "string"
+            },
+            {
+              "id": "cdb4ac05-7a9f-45e8-9840-4aa02fadffb7",
+              "name": "prix",
+              "value": "={{ $json.prix_mensuel }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2416,
+        1024
+      ],
+      "id": "8faf8da5-74d2-48e0-844f-1a2ccb75f925",
+      "name": "24_Fusion_adresse"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-3.5-turbo",
+          "mode": "list",
+          "cachedResultName": "GPT-3.5-TURBO"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "Tu es un assistant expert en extraction de données de RIB bancaire français \nTa mission :\n1. Extraire les données d'un RIB pour remplir un contrat commercial et un mandat SEPA\n2. Retourner un JSON strictement valide avec exactement les champs ci-dessous\n3. Respecter scrupuleusement les formats français\n\nRÈGLES CRITIQUES :\n- Dates : format JJ/MM/YYYY\n- IBAN : SANS espaces (ex: FR76123456789012345678901234)\n- BIC : 8 ou 11 caractères alphanumériques majuscules\n- Adresses : format lisible avec majuscules\n- Noms : MAJUSCULES complètes\n\nIMPORTANT : Retourne UNIQUEMENT le JSON, sans texte avant ou après, sans balises markdown.",
+              "role": "system"
+            },
+            {
+              "content": "=Extrait les informations suivantes du RIB :\n\n- DEBTOR_NAME : Nom du titulaire du compte\n- DEBTOR_ADDRESS : Adresse (rue uniquement, sans code postal ni ville)\n- DEBTOR_POSTAL_CODE : Code postal uniquement\n- DEBTOR_CITY : Ville uniquement\n- IBAN : Code IBAN (enlève tous les espaces et garde uniquement les caractères alphanumériques)\n- BIC : Code BIC/SWIFT\n\nIMPORTANT :\n- Pour l'IBAN : cherche \"IBAN\" ou \"FR76\" suivi de chiffres (peut contenir des espaces à retirer)\n- Pour le BIC : cherche \"BIC\" ou \"SWIFT\" suivi du code (format : lettres et chiffres, ex: QNTOFRP1XXX)\n\nTexte du RIB :\n{{ $json.content }}"
+            }
+          ]
+        },
+        "jsonOutput": true,
+        "options": {
+          "temperature": 0.1
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        592,
+        1024
+      ],
+      "id": "f5102238-e4cf-4c9d-8848-b4b4f7d4bc64",
+      "name": "11_RIB_PDF_SEPA1",
+      "credentials": {
+        "openAiApi": {
+          "id": "0YOT7LgH7AEI88xI",
+          "name": "OpenAi account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-3.5-turbo",
+          "mode": "list",
+          "cachedResultName": "GPT-3.5-TURBO"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "Tu es un assistant expert en extraction de données de RIB bancaire français \nTa mission :\n1. Extraire les données d'un RIB pour remplir un contrat commercial et un mandat SEPA\n2. Retourner un JSON strictement valide avec exactement les champs ci-dessous\n3. Respecter scrupuleusement les formats français\n\nRÈGLES CRITIQUES :\n- Dates : format JJ/MM/YYYY\n- IBAN : SANS espaces (ex: FR76123456789012345678901234)\n- BIC : 8 ou 11 caractères alphanumériques majuscules\n- Adresses : format lisible avec majuscules\n- Noms : MAJUSCULES complètes\n\nIMPORTANT : Retourne UNIQUEMENT le JSON, sans texte avant ou après, sans balises markdown.",
+              "role": "system"
+            },
+            {
+              "content": "=Extrait les informations suivantes du RIB :\n\n- DEBTOR_NAME : Nom du titulaire du compte\n- DEBTOR_ADDRESS : Adresse (rue uniquement, sans code postal ni ville)\n- DEBTOR_POSTAL_CODE : Code postal uniquement\n- DEBTOR_CITY : Ville uniquement\n- IBAN : Code IBAN (enlève tous les espaces et garde uniquement les caractères alphanumériques)\n- BIC : Code BIC/SWIFT\n\nIMPORTANT :\n- Pour l'IBAN : cherche \"IBAN\" ou \"FR76\" suivi de chiffres (peut contenir des espaces à retirer)\n- Pour le BIC : cherche \"BIC\" ou \"SWIFT\" suivi du code (format : lettres et chiffres, ex: QNTOFRP1XXX)\n\nTexte du RIB :\n{{ $json.text }}"
+            }
+          ]
+        },
+        "jsonOutput": true,
+        "options": {
+          "temperature": 0.1
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        592,
+        848
+      ],
+      "id": "ba830bcc-e7da-449b-9032-e2ed9d0d1d1d",
+      "name": "12_RIB_IMAGE_SEPA",
+      "credentials": {
+        "openAiApi": {
+          "id": "0YOT7LgH7AEI88xI",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o",
+          "mode": "list",
+          "cachedResultName": "GPT-4O"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=Tu es un assistant chargé d'extraire l'adresse du siège social depuis un KBIS.\n\nVoici le texte brut complet du KBIS :\n\"\"\"\n{{ $json.kbis_text }}\n\"\"\"\n\n🎯 Objectifs :\n1. Extraire UNIQUEMENT **l'adresse du siège social** (l'adresse principale et active de l'entreprise).\n   - Ignore les adresses secondaires, fermées ou anciennes.\n2. Conserver le texte brut COMPLET ET IDENTIQUE dans le champ `kbis_text` (ne le modifie surtout pas).\n\n📦 Format de sortie JSON strict (SANS ```json ni ``` ni aucun texte supplémentaire) :\n{\n  \"adresse_kbis\": \"L'adresse exacte extraite ici\",\n  \"kbis_text\": \"{{ $json.kbis_text }}\"\n}\n\n⚠️ IMPORTANT : Le champ kbis_text doit contenir EXACTEMENT le même texte que celui fourni ci-dessus, sans aucune modification."
+            }
+          ]
+        },
+        "jsonOutput": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        2560,
+        448
+      ],
+      "id": "2f2309e4-c020-49d3-b41a-60820df4c93a",
+      "name": "25_KBIS_MAPING",
+      "credentials": {
+        "openAiApi": {
+          "id": "0YOT7LgH7AEI88xI",
+          "name": "OpenAi account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "messages": {
+          "message": [
+            {
+              "content": "=Recherche l'entreprise {{ $json.Account_holder }} située à l'adresse {{ $json.address }} dans le secteur restauration/restauration rapide/grande distribution.\n\nMÉTHODE DE RECHERCHE :\n1. Va sur societe.com ou pappers.fr\n2. Recherche par ADRESSE : {{ $json.address }}\n3. Filtre UNIQUEMENT les entreprises :\n   - Secteur : restauration/restauration rapide/grande distribution\n   - Statut : ACTIVE (ignore radiée, fermée, cessation, dissolution, liquidation)\n   - Nom correspondant : contenant ou similaire à : {{ $json.Account_holder }}\n\nINFORMATIONS À EXTRAIRE :\n- Dénomination Sociale\n- Forme juridique (SARL, SAS, EURL, etc.)\n- SIREN (9 chiffres)\n- Adresse du siège social (complète)\n- SIRET (14 chiffres)\n- RCS_VILLE (RCS Ville lettre A ou B et numéro SIREN)\n\nFORMAT DE RÉPONSE :\nDénomination Sociale : \nForme juridique : \nSIREN : \nAdresse du siège social : \nSIRET :\nRCS_VILLE :\n\nRÈGLES :\n- Si plusieurs entreprises trouvées : choisis celle du secteur restauration ACTIVE\n- AUCUN texte supplémentaire, contexte ou explication\n- Retourne UNIQUEMENT les 6 lignes ci-dessus"
+            }
+          ]
+        },
+        "options": {
+          "temperature": 0.3
+        },
+        "requestOptions": {}
+      },
+      "type": "n8n-nodes-base.perplexity",
+      "typeVersion": 1,
+      "position": [
+        2624,
+        1184
+      ],
+      "id": "1244276a-38cd-4109-8030-277c7c171351",
+      "name": "26_Perplexity_find_KBIS",
+      "credentials": {
+        "perplexityApi": {
+          "id": "bLQaNMrE3AsrEDno",
+          "name": "Perplexity account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d531ec8d-4b1f-40b8-997a-a1b5c67f2ed7",
+              "name": "denomination_sociale",
+              "value": "={{ (() => { \n  const match = $json.message.content.kbis_text.match(/Dénomination ou raison sociale\\s*\\n\\s*([^\\n]+)/i); \n  return match ? match[1].trim() : 'NON DISPONIBLE'; \n})() }}",
+              "type": "string"
+            },
+            {
+              "id": "79fcb6be-e700-49c9-b76d-6b2b03c54e48",
+              "name": "forme_juridique",
+              "value": "={{ (() => { \n  const match = $json.message.content.kbis_text.match(/Forme juridique\\s+([^\\n]+)/i); \n  return match ? match[1].trim() : 'NON DISPONIBLE'; \n})() }}",
+              "type": "string"
+            },
+            {
+              "id": "484a0320-0ce7-4afe-a034-aa6db84f5ddf",
+              "name": "siren",
+              "value": "={{ (() => { \n  const match = $json.message.content.kbis_text.match(/numéro\\s+(\\d{3}\\s+\\d{3}\\s+\\d{3})/i); \n  return match ? match[1].replace(/\\s/g, '') : 'NON DISPONIBLE'; \n})() }}",
+              "type": "string"
+            },
+            {
+              "id": "98206bd6-72c0-4ed9-9ce1-d9a531f233b9",
+              "name": "adresse_siege",
+              "value": "={{ (() => { \n  const match = $json.message.content.kbis_text.match(/Adresse du siège\\s+([^\\n]+)/i); \n  return match ? match[1].trim() : 'NON DISPONIBLE'; \n})() }}",
+              "type": "string"
+            },
+            {
+              "id": "f2d47dc9-7824-466e-a0a2-c0c993cfbc63",
+              "name": "adresse_restaurant",
+              "value": "=",
+              "type": "string"
+            },
+            {
+              "id": "837e6e09-cfe8-4ec7-90ec-dd83d9e3bb4d",
+              "name": "siret",
+              "value": "={{ (() => { \n  const match = $json.message.content.kbis_text.match(/SIRET[^\\d]*(\\d{14})/i);\n  return match ? match[1] : 'NON DISPONIBLE'; \n})() }}",
+              "type": "string"
+            },
+            {
+              "id": "f1660684-9630-4171-835d-910f093b79e1",
+              "name": "kbis_text",
+              "value": "={{ $json.message.content.kbis_text }}",
+              "type": "string"
+            },
+            {
+              "id": "d7c8f3dc-5485-4d33-ab24-b23724da8dc1",
+              "name": "rcs_ville",
+              "value": "={{ (() => {    const match = $json.choices[0].message.content.match(/RCS_VILLE\\s*:\\s*([^\\n]+)/i);    return match ? match[1].trim().replace(/\\[\\d+\\]/g, '') : 'NON DISPONIBLE';  })() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2944,
+        448
+      ],
+      "id": "b35d1312-68bc-438c-a43a-abe5493a4c2f",
+      "name": "27_SET_KBIS"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e9cad721-ccb4-467d-ae93-c3293d4f8800",
+              "name": "rib_text",
+              "value": "={{ $json.message.content.rib_text }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2944,
+        656
+      ],
+      "id": "755be0ca-2429-4263-a410-7ffdf6bc0179",
+      "name": "28_SET_RIB",
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1c7f6e8b-abc8-43d2-8b34-c8315d25efa8",
+              "name": "rib_text",
+              "value": "={{ $json.rib_text }}",
+              "type": "string"
+            },
+            {
+              "id": "73bd8751-bcda-436a-afda-10c75adbaaa1",
+              "name": "adresse",
+              "value": "={{ $json.address }}",
+              "type": "string"
+            },
+            {
+              "id": "a3a0f79e-2170-4d78-83c2-8e1d227ccf41",
+              "name": "prix",
+              "value": "={{ $json.prix }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2944,
+        880
+      ],
+      "id": "7300bd93-d64d-47fe-8e49-3bdff5d834ca",
+      "name": "29_SET_RIB"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d531ec8d-4b1f-40b8-997a-a1b5c67f2ed7",
+              "name": "denomination_sociale",
+              "value": "={{ (() => { \n  const match = $json.choices[0].message.content.match(/Dénomination Sociale\\s*:\\s*([^\\n]+)/i); \n  return match ? match[1].trim().replace(/\\[\\d+\\]/g, '') : 'NON DISPONIBLE'; \n})() }}",
+              "type": "string"
+            },
+            {
+              "id": "79fcb6be-e700-49c9-b76d-6b2b03c54e48",
+              "name": "forme_juridique",
+              "value": "={{ (() => { \n  const match = $json.choices[0].message.content.match(/Forme juridique\\s*:\\s*([^\\n]+)/i); \n  return match ? match[1].trim().replace(/\\[\\d+\\]/g, '') : 'NON DISPONIBLE'; \n})() }}",
+              "type": "string"
+            },
+            {
+              "id": "484a0320-0ce7-4afe-a034-aa6db84f5ddf",
+              "name": "siren",
+              "value": "={{ (() => {    const match = $json.choices[0].message.content.match(/SIREN\\s*:\\s*([^\\n]+)/i);    return match ? match[1].trim().replace(/\\[\\d+\\]/g, '') : 'NON DISPONIBLE';  })() }}",
+              "type": "string"
+            },
+            {
+              "id": "98206bd6-72c0-4ed9-9ce1-d9a531f233b9",
+              "name": "adresse_siege",
+              "value": "={{ (() => { \n  const match = $json.choices[0].message.content.match(/Adresse du siège social\\s*:\\s*([^\\n]+)/i); \n  return match ? match[1].trim().replace(/\\[\\d+\\]/g, '') : 'NON DISPONIBLE'; \n})() }}",
+              "type": "string"
+            },
+            {
+              "id": "f2d47dc9-7824-466e-a0a2-c0c993cfbc63",
+              "name": "adresse_restaurant",
+              "value": "={{ $('24_Fusion_adresse').item.json.address }}",
+              "type": "string"
+            },
+            {
+              "id": "837e6e09-cfe8-4ec7-90ec-dd83d9e3bb4d",
+              "name": "siret",
+              "value": "={{ (() => { \n  const match = $json.choices[0].message.content.match(/SIRET\\s*:\\s*([^\\n]+)/i); \n  return match ? match[1].trim().replace(/\\[\\d+\\]/g, '') : 'NON DISPONIBLE'; \n})() }}",
+              "type": "string"
+            },
+            {
+              "id": "f1660684-9630-4171-835d-910f093b79e1",
+              "name": "kbis_text",
+              "value": "={{ $json.choices[0].message.content }}",
+              "type": "string"
+            },
+            {
+              "id": "dce36bab-c40d-4aca-9a73-7f5dd25703f4",
+              "name": "rcs_ville",
+              "value": "={{ (() => {    const match = $json.choices[0].message.content.match(/RCS_VILLE\\s*:\\s*([^\\n]+)/i);    return match ? match[1].trim().replace(/\\[\\d+\\]/g, '') : 'NON DISPONIBLE';  })() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2944,
+        1184
+      ],
+      "id": "8a8b8f96-440c-410a-9c67-fe7f398bcdcb",
+      "name": "30_SET_KBIS"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "numberInputs": 3,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        3248,
+        432
+      ],
+      "id": "0745bf9f-1cb4-4bf2-8313-94494f0722e9",
+      "name": "31_MERGE_KBIS_RIB",
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        3232,
+        1024
+      ],
+      "id": "34c81aa5-1c52-4f99-8c73-ddcb7660d744",
+      "name": "32_MERGE_RIB_SCRAPPING",
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {
+          "includeUnpaired": true
+        }
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        3504,
+        752
+      ],
+      "id": "f9680d47-82e7-4f78-b216-20af00acb0a3",
+      "name": "33_DATA_FINAL",
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-3.5-turbo",
+          "mode": "list",
+          "cachedResultName": "GPT-3.5-TURBO"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "Tu es un assistant expert en extraction de données de documents administratifs français (KBIS, RIB, Prix mensuel).\n\nTa mission :\n1. Extraire les données du KBIS et du RIB pour remplir un contrat commercial et un mandat SEPA\n2. Retourner un JSON strictement valide avec exactement 21 champs\n3. Si une donnée n'est pas trouvée, utiliser \"NON_TROUVE\"\n4. Respecter scrupuleusement les formats français\n\nRÈGLES CRITIQUES :\n- Conversion prix en lettres : utiliser les règles françaises (trait d'union, \"et\", \"cents\" avec \"s\")\n- Dates : format JJ/MM/YYYY\n- IBAN : SANS espaces (ex: FR76123456789012345678901234)\n- BIC : 8 ou 11 caractères alphanumériques majuscules\n- Adresses : format lisible avec majuscules\n- Noms : MAJUSCULES complètes\n\nIMPORTANT : Retourne UNIQUEMENT le JSON, sans texte avant ou après, sans balises markdown.",
+              "role": "system"
+            },
+            {
+              "content": "=Tu es un assistant d'extraction de données pour générer des contrats commerciaux et mandats SEPA.\n\n---\n\n## 📥 DONNÉES REÇUES\n\n### Documents disponibles :\n\n**KBIS (optionnel)** :\n{{ $json.kbis_text }}\n\n**RIB (obligatoire)** :\n{{ $json.rib_text }}\n\n**PRIX MENSUEL (obligatoire)** :\n{{ $json.prix }}\n\n**ADRESSE RESTAURANT (optionnel)** :\n{{ $json.adresse_restaurant }}\n\n**DATE DU JOUR** :\n{{ $now.format('DD/MM') }}\n\n---\n\n## 🎯 INSTRUCTIONS D'EXTRACTION\n\n### SCÉNARIO 1 : KBIS + RIB fournis\nSi le KBIS est fourni (texte non vide), extraire **prioritairement** du KBIS :\n- Dénomination_Sociale\n- Forme_juridique\n- Numéro_SIRENT (9 chiffres)\n- Numéro_SIRET (14 chiffres)\n- Adresse_du_siège_social (UNE SEULE LIGNE : numéro + rue + code postal + ville + pays en MAJUSCULES)\n- RCS_ville (RCS une lettre A ou B et le SIREN)\n\n### SCÉNARIO 2 : Seulement RIB fourni\nSi le KBIS n'est PAS fourni, extraire du RIB :\n- Dénomination_Sociale (nom de l'entreprise titulaire du compte)\n- Forme_juridique (si mentionnée, sinon mettre \"Non spécifiée\")\n- Numéro_SIRET \n- Adresse_du_siège_social (reconstruire à partir de l'adresse RIB sur UNE LIGNE)\n- RCS_ville (RCS une lettre A ou B et le SIREN)\n\n---\n\n## 💰 SECTION PRIX\n\n**Prix en chiffres** : Reprendre le prix mensuel {{ $json.prix }} tel quel\n**Prix en lettres** : Convertir en lettres  {{ $json.prix }} selon les règles françaises\n\n### Règles de conversion :\n- Trait d'union entre dizaines et unités (ex: \"vingt-trois\")\n- \"et\" uniquement avant \"un\" (ex: \"vingt et un\")\n- \"cent\" prend un \"s\" si multiplié et non suivi (ex: \"deux cents\" mais \"deux cent dix\")\n- Pas de \"s\" à \"vingt\" sauf dans \"quatre-vingts\"\n\n### Exemples :\n- 150 → \"cent cinquante euros\"\n- 275 → \"deux cent soixante-quinze euros\"\n- 400 → \"quatre cents euros\"\n- 421 → \"quatre cent vingt et un euros\"\n\n---\n\n## 🏦 SECTION MANDAT SEPA (depuis RIB)\n\nExtraire du RIB les informations suivantes :\n\n**DEBTOR_NAME** : NOM de l'entreprise en MAJUSCULES (ex: \"GEMIGNANI\")\n\n**DEBTOR_ADDRESS** : Adresse du titulaire (numéro + rue) en MAJUSCULES, SANS code postal ni ville (ex: \"122 RUE DU JARDIN\")\n\n**DEBTOR_POSTAL_CODE** : Code postal uniquement (ex: \"40230\")\n\n**DEBTOR_CITY** : Ville uniquement en MAJUSCULES (ex: \"BENESSE MAREMNE\")\n\n**IBAN** : IBAN complet SANS espaces (ex: \"FR7611306000151513547000053\")\n\n**BIC** : Code BIC en MAJUSCULES (ex: \"AGRIFRPP813\")\n\n**SIGNATURE_DATE** : {{ $now.format('DD/MM/YYYY') }}\n\n**CONTRACT_NUMBER** : Générer selon le format \"20260000000000000001\"\n\n---\n\n## 📤 FORMAT DE RÉPONSE\n\nRetourne **UNIQUEMENT** un objet JSON valide avec ces 14 champs :\n```json\n{\n  \"Dénomination_Sociale\": \"...\",\n  \"Forme_juridique\": \"...\",\n  \"Numéro_SIREN\": \"...\",\n  \"Numéro_SIREN\": \"...\",\n  \"RCS_ville\": \"...\",\n  \"Adresse_du_siège_social\": \"...\",\n  \"prix_en_chiffre\": \"...\",\n  \"prix_en_lettre\": \"...\",\n  \"DEBTOR_NAME\": \"...\",\n  \"DEBTOR_ADDRESS\": \"...\",\n  \"DEBTOR_POSTAL_CODE\": \"...\",\n  \"DEBTOR_CITY\": \"...\",\n  \"IBAN\": \"...\",\n  \"BIC\": \"...\",\n  \"SIGNATURE_DATE\": \"JJ/MM/YYYY\",\n  \"CONTRACT_NUMBER\": \"SAV-YYYYMMDD-XXXX\"\n}\n```\n\n**IMPORTANT** :\n- Retourne UNIQUEMENT ce JSON\n- Sans texte explicatif\n- Sans balises markdown ```json\n- Sans commentaires"
+            }
+          ]
+        },
+        "jsonOutput": true,
+        "options": {
+          "temperature": 0.1
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        4016,
+        752
+      ],
+      "id": "0b6660ba-977e-46cd-8bc7-d30ea4ea7829",
+      "name": "35_GENERER_INFOS_CONTRAT_SEPA",
+      "credentials": {
+        "openAiApi": {
+          "id": "0YOT7LgH7AEI88xI",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "73fc32ee-2993-4f55-9589-fd32996281e4",
+              "name": "prix",
+              "value": "={{ $json.prix }}",
+              "type": "string"
+            },
+            {
+              "id": "636e0fab-2f8a-4268-b7de-a138d1b9b76e",
+              "name": "adresse_restaurant",
+              "value": "={{ $json.adresse_restaurant }}",
+              "type": "string"
+            },
+            {
+              "id": "e44ef630-b8a4-4b80-bf72-9086e29d71d3",
+              "name": "rib_text",
+              "value": "={{ $json.rib_text || \"\" }}",
+              "type": "string"
+            },
+            {
+              "id": "0d273417-a57f-477c-9dd7-f0dd5232b7ee",
+              "name": "kbis_text",
+              "value": "={{ $json.kbis_text || \"\" }}",
+              "type": "string"
+            },
+            {
+              "id": "930b8f14-cb1b-4a5c-95af-b8e54b078623",
+              "name": "siren",
+              "value": "={{ $json.siren || \"\" }}",
+              "type": "string"
+            },
+            {
+              "id": "7692bf80-5caf-4ce8-9ee8-727821d7d340",
+              "name": "adresse_siege",
+              "value": "={{ $json.adresse_siege || \"\" }}",
+              "type": "string"
+            },
+            {
+              "id": "c75408a9-ee60-49bd-b98f-bf61179bdd10",
+              "name": "siret",
+              "value": "={{ $json.siret || \"\" }}",
+              "type": "string"
+            },
+            {
+              "id": "7347921b-5d22-4087-926e-9752dc5b30f7",
+              "name": "rcs_ville",
+              "value": "={{ $json.rcs_ville }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3808,
+        752
+      ],
+      "id": "dda1d003-6631-4ac7-b1c5-0c49b9478765",
+      "name": "34_SET_FINAL",
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-3.5-turbo",
+          "mode": "list",
+          "cachedResultName": "GPT-3.5-TURBO"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "Tu es un assistant expert en extraction de données de RIB bancaire français \nTa mission :\n1. Extraire les données d'un RIB pour remplir un contrat commercial et un mandat SEPA\n2. Retourner un JSON strictement valide avec exactement les champs ci-dessous\n3. Respecter scrupuleusement les formats français\n\nRÈGLES CRITIQUES :\n- Dates : format JJ/MM/YYYY\n- IBAN : SANS espaces (ex: FR76123456789012345678901234)\n- BIC : 8 ou 11 caractères alphanumériques majuscules\n- Adresses : format lisible avec majuscules\n- Noms : MAJUSCULES complètes\n\nIMPORTANT : Retourne UNIQUEMENT le JSON, sans texte avant ou après, sans balises markdown.",
+              "role": "system"
+            },
+            {
+              "content": "=Extrait les informations suivantes du RIB :\n\n- DEBTOR_NAME : Nom du titulaire du compte\n- DEBTOR_ADDRESS : Adresse (rue uniquement, sans code postal ni ville)\n- DEBTOR_POSTAL_CODE : Code postal uniquement\n- DEBTOR_CITY : Ville uniquement\n- IBAN : Code IBAN (enlève tous les espaces et garde uniquement les caractères alphanumériques)\n- BIC : Code BIC/SWIFT\n- rib_text : avec toutes les infos du rib (DEBTOR_NAME,DEBTOR_ADDRESS, DEBTOR_POSTAL_CODE, DEBTOR_CITY, IBAN, BIC )\n\nIMPORTANT :\n- Pour l'IBAN : cherche \"IBAN\" ou \"FR76\" suivi de chiffres (peut contenir des espaces à retirer)\n- Pour le BIC : cherche \"BIC\" ou \"SWIFT\" suivi du code (format : lettres et chiffres, ex: QNTOFRP1XXX)\n\nTexte du RIB :\n{{ $json.text }}"
+            }
+          ]
+        },
+        "jsonOutput": true,
+        "options": {
+          "temperature": 0.1
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        592,
+        656
+      ],
+      "id": "7e8ca8f6-2596-4974-968f-1c615d6c3402",
+      "name": "12_RIB_PDF_SEPA1",
+      "credentials": {
+        "openAiApi": {
+          "id": "0YOT7LgH7AEI88xI",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "allIncomingItems",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        7696,
+        720
+      ],
+      "id": "01a8928b-9a95-4dd9-b6c0-eeb05b111bd4",
+      "name": "Respond to Webhook3",
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentURL": "={{ $('Prepare_Contract_Data').item.json.ID }}",
+        "actionsUi": {
+          "actionFields": [
+            {
+              "action": "replaceAll",
+              "text": "[Dénomination Sociale]",
+              "replaceText": "={{ $('Prepare_Contract_Data').item.json.Denomination_sociale }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "[Forme juridique]",
+              "replaceText": "={{ $('35_GENERER_INFOS_CONTRAT_SEPA').item.json.message.content.Forme_juridique }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "[SIREN]",
+              "replaceText": "={{ $('35_GENERER_INFOS_CONTRAT_SEPA').item.json.message.content[\"Numéro_SIREN\"] }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "[Adresse du siège social]",
+              "replaceText": "={{ $('35_GENERER_INFOS_CONTRAT_SEPA').item.json.message.content[\"Adresse_du_siège_social\"] }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "[prix_en_chiffre]",
+              "replaceText": "={{ $('35_GENERER_INFOS_CONTRAT_SEPA').item.json.message.content.prix_en_chiffre }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "[prix_en_lettre]",
+              "replaceText": "={{ $('35_GENERER_INFOS_CONTRAT_SEPA').item.json.message.content.prix_en_lettre }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "\""
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{DEBTOR_NAME}}",
+              "replaceText": "={{ $('35_GENERER_INFOS_CONTRAT_SEPA').item.json.message.content.DEBTOR_NAME }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{DEBTOR_ADDRESS}}",
+              "replaceText": "={{ $('35_GENERER_INFOS_CONTRAT_SEPA').item.json.message.content.DEBTOR_ADDRESS }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{DEBTOR_POSTAL_CODE}}",
+              "replaceText": "={{ $('35_GENERER_INFOS_CONTRAT_SEPA').item.json.message.content.DEBTOR_POSTAL_CODE }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{DEBTOR_CITY}}",
+              "replaceText": "={{ $('35_GENERER_INFOS_CONTRAT_SEPA').item.json.message.content.DEBTOR_CITY }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{IBAN}}",
+              "replaceText": "={{ $('35_GENERER_INFOS_CONTRAT_SEPA').item.json.message.content.IBAN }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{BIC}}",
+              "replaceText": "={{ $('35_GENERER_INFOS_CONTRAT_SEPA').item.json.message.content.BIC }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{SIGNATURE_DATE}}",
+              "replaceText": "={{ $('35_GENERER_INFOS_CONTRAT_SEPA').item.json.message.content.SIGNATURE_DATE }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "[RCS_VILLE]",
+              "replaceText": "={{ $('35_GENERER_INFOS_CONTRAT_SEPA').item.json.message.content.RCS_ville }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{RUM}}",
+              "replaceText": "={{ $json.NUMERO_CONTRAT_STRING }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        6688,
+        752
+      ],
+      "id": "0bb42155-7b2a-4326-bdf6-a6ba24cd3b4b",
+      "name": "37_CONTRAT_SEPA_V3",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "Axg1WtU5qDKZqP3G",
+          "name": "SAVOUR_CONTRATV2"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "operation": "copy",
+        "fileId": {
+          "__rl": true,
+          "value": "14VMz_bnDEfhIa1PqObhAJID8lm77mRldadkzqFR6lwI",
+          "mode": "list",
+          "cachedResultName": "V3_TEMPLATE_CONTRAT_SAVOUR ",
+          "cachedResultUrl": "https://docs.google.com/document/d/14VMz_bnDEfhIa1PqObhAJID8lm77mRldadkzqFR6lwI/edit?usp=drivesdk"
+        },
+        "name": "=CONTRAT - {{ $json.message.content[\"Dénomination_Sociale\"] }} - {{ $json.message.content.SIGNATURE_DATE }} - {{ $json.message.content[\"Adresse_du_siège_social\"] }}",
+        "sameFolder": false,
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "1pKUiX99-DmHG4u19aerRIpFVimRmj0gW",
+          "mode": "list",
+          "cachedResultName": "DOC REMPLIS",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1pKUiX99-DmHG4u19aerRIpFVimRmj0gW"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        5376,
+        400
+      ],
+      "id": "2fab6359-e75d-4159-a924-b8f6a0ae9729",
+      "name": "36_Copy_Template1",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "2H7y2vMpliZog42p",
+          "name": "SAVOUR_CONTRAT_V2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $json.documentId }}",
+          "mode": "id"
+        },
+        "options": {
+          "googleFileConversion": {
+            "conversion": {
+              "docsToFormat": "application/pdf",
+              "drawingsToFormat": "application/pdf",
+              "slidesToFormat": "application/pdf",
+              "sheetsToFormat": "application/pdf"
+            }
+          },
+          "fileName": "=Contrat Savour: {{ $('Prepare_Contract_Data').item.json.Denomination_sociale }}.pdf"
+        }
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        6944,
+        752
+      ],
+      "id": "6264dcdf-2cde-4d51-8157-ca1ed105a241",
+      "name": "38_Download_pdf",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "2H7y2vMpliZog42p",
+          "name": "SAVOUR_CONTRAT_V2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "name": "=Contrat Savour : {{ $('Prepare_Contract_Data').item.json.Denomination_sociale }}",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "16hu3UGVwmuQmR94FZZj3XXJ2GFmk15fO",
+          "mode": "list",
+          "cachedResultName": "CONTRATS_valide_pdf",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/16hu3UGVwmuQmR94FZZj3XXJ2GFmk15fO"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        7168,
+        752
+      ],
+      "id": "5c75316e-3d3f-4a6d-a6f1-6d5d27fe557b",
+      "name": "39_Upload_pdf",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "2H7y2vMpliZog42p",
+          "name": "SAVOUR_CONTRAT_V2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "share",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $json.id }}",
+          "mode": "id"
+        },
+        "permissionsUi": {
+          "permissionsValues": {
+            "role": "reader",
+            "type": "anyone"
+          }
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        7424,
+        960
+      ],
+      "id": "476b51ee-eda6-4ebf-8787-53710e3bfbf4",
+      "name": "40_Share_pdf",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "2H7y2vMpliZog42p",
+          "name": "SAVOUR_CONTRAT_V2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "dataTableId": {
+          "__rl": true,
+          "value": "pxoHhJyRL5N89dBf",
+          "mode": "list",
+          "cachedResultName": "SAVOUR_CONTRAT",
+          "cachedResultUrl": "/projects/PF9ydpn7gWt8T8s2/datatables/pxoHhJyRL5N89dBf"
+        },
+        "returnAll": true
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1,
+      "position": [
+        4896,
+        1088
+      ],
+      "id": "89ecea29-d2d8-4c7e-a3a6-6ae0c5b5cf8f",
+      "name": "40_Get_All_Contracts"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Récupérer toutes les lignes\nconst items = $input.all();\n\n// Si aucune ligne, commencer à 20260000000000000000\nif (items.length === 0) {\n  return [{\n    json: {\n      new_numero: \"20260000000000000001\"\n    }\n  }];\n}\n\n// Trier par NUMERO_CONTRAT_STRING décroissant pour avoir le plus grand en premier\nconst sorted = items.sort((a, b) => {\n  const numA = BigInt(a.json.NUMERO_CONTRAT_STRING);\n  const numB = BigInt(b.json.NUMERO_CONTRAT_STRING);\n  return numB > numA ? 1 : -1;\n});\n\n// Prendre le dernier numéro (le plus grand)\nconst lastNumero = sorted[0].json.NUMERO_CONTRAT_STRING;\n\n// Calculer le nouveau numéro (+1)\nconst newNumero = (BigInt(lastNumero) + BigInt(1)).toString();\n\n// Retourner le nouveau numéro avec padding de 20 caractères\nreturn [{\n  json: {\n    last_numero: lastNumero,\n    new_numero: newNumero.padStart(20, '0')\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        5376,
+        1088
+      ],
+      "id": "1984d0f4-ab8a-4c59-8b67-d3d4ae2243d0",
+      "name": "41_Calculate_New_Number"
+    },
+    {
+      "parameters": {
+        "dataTableId": {
+          "__rl": true,
+          "value": "pxoHhJyRL5N89dBf",
+          "mode": "list",
+          "cachedResultName": "SAVOUR_CONTRAT",
+          "cachedResultUrl": "/projects/PF9ydpn7gWt8T8s2/datatables/pxoHhJyRL5N89dBf"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "NAME": "={{ $json.NAME }}",
+            "Address": "={{ $json.Denomination_sociale }}",
+            "NUMERO_CONTRAT_STRING": "={{ $json.NUMERO_CONTRAT }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "NUMERO_CONTRAT_STRING",
+              "displayName": "NUMERO_CONTRAT_STRING",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "NAME",
+              "displayName": "NAME",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Address",
+              "displayName": "Address",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1,
+      "position": [
+        6432,
+        752
+      ],
+      "id": "68ae3daa-d96e-4048-9ef1-3ec7c363d61b",
+      "name": "42_Insertrow_BDD"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "589bd219-d177-4973-a9e1-832d9aecac7d",
+              "name": "NUMERO_CONTRAT",
+              "value": "={{ $json.new_numero }}",
+              "type": "string"
+            },
+            {
+              "id": "2f214482-30d3-4bb0-bcd3-0fd2acb6626f",
+              "name": "NAME",
+              "value": "={{ $json.name }}",
+              "type": "string"
+            },
+            {
+              "id": "4a5989d3-e3ab-4ec6-970b-e400b2254cd9",
+              "name": "ID",
+              "value": "={{ $json.id }}",
+              "type": "string"
+            },
+            {
+              "id": "73e58a8f-b293-4886-b445-e7ef4111cf88",
+              "name": "Denomination_sociale",
+              "value": "={{ $('35_GENERER_INFOS_CONTRAT_SEPA').item.json.message.content[\"Dénomination_Sociale\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "0cb50d98-2e16-4ea6-9d5f-c77592f9f8ac",
+              "name": "validation",
+              "value": "={{ $json.validation }}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        5968,
+        752
+      ],
+      "id": "95795932-efac-4ff4-8db0-cb051ce8cca5",
+      "name": "Prepare_Contract_Data"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "numberInputs": 3,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        5632,
+        736
+      ],
+      "id": "b5c966e7-2cd9-44ed-ad89-575cb42fc38f",
+      "name": "Merge_Data"
+    },
+    {
+      "parameters": {
+        "mode": "expression",
+        "numberOutputs": 2,
+        "output": "={{ $json.contenu_texte.includes(\"Non spécifiée\") || $json.contenu_texte.includes(\"non spécifié\") || $json.contenu_texte.includes(\"non_specifié\") || $json.contenu_texte.includes(\"NON_TROUVE\") || $json.contenu_texte.includes(\"Non_TROUVE\") || $json.contenu_texte.includes(\"Non trouvé\") || $json.contenu_texte.includes(\"NON DISPONIBLE\") || $json.contenu_texte.toUpperCase().includes(\"JEAN DUPONT\") || $json.contenu_texte.toUpperCase().includes(\"ENTREPRISE INCONNUE\") || ($json.contenu_texte.includes(\"Adresse_du_siège_social\") && $json.contenu_texte.includes(\"NON_TROUVE\")) || $json.contenu_texte.toUpperCase().includes(\"I CAN'T HELP WITH THAT\") }}"
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.3,
+      "position": [
+        4912,
+        752
+      ],
+      "id": "f16a30b5-bf76-4ba6-8b21-d3ad15d0b0d2",
+      "name": "37_DETECT_ERREURS"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "08797904-0f67-4cf1-8cbe-dc51b47b2876",
+              "name": "contenu_texte",
+              "value": "={{ JSON.stringify($json) }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        4688,
+        752
+      ],
+      "id": "4f8c3719-7b58-427d-afc9-ed74930c55ce",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "c5b77294-4483-441f-9b1b-a6b569b98e79",
+              "name": "validation",
+              "value": "={\n  \"qualite_ok\": false,\n  \"alerte\": true,\n  \"message_alerte\": \"⚠️ Des données sont incomplètes ou suspectes détectées\",\n  \"titre_problemes\": \"Problèmes détectés\",\n  \"champs_problematiques\": [\n    \"{{ $json.contenu_texte.toUpperCase().includes('I CAN') && $json.contenu_texte.toUpperCase().includes('HELP') ? '❌ Document refusé par IA : contenu inapproprié ou illisible' : '' }}\",\n    \"{{ $json.contenu_texte.toUpperCase().includes('JEAN DUPONT') || $json.contenu_texte.toUpperCase().includes('ENTREPRISE INCONNUE') ? '❌ Dénomination sociale : suspecte' : '' }}\",\n    \"{{ $json.contenu_texte.includes('Adresse_du_siège_social') && $json.contenu_texte.includes('NON_TROUVE') ? '❌ Adresse du siège social : non trouvée' : '' }}\",\n    \"{{ $json.contenu_texte.includes('Non spécifiée') || $json.contenu_texte.includes('non spécifié') ? '❌ Forme juridique : non spécifiée' : '' }}\",\n    \"{{ $json.contenu_texte.includes('NON_TROUVE') && $json.contenu_texte.includes('SIREN') ? '❌ Numéro SIREN : non trouvé' : '' }}\",\n    \"{{ $json.contenu_texte.includes('NON_TROUVE') && $json.contenu_texte.includes('SIRET') ? '❌ Numéro SIRET : non trouvé' : '' }}\",\n    \"{{ $json.contenu_texte.includes('NON_TROUVE') && $json.contenu_texte.includes('RCS') ? '❌ RCS ville : non trouvé' : '' }}\"\n  ],\n  \"titre_recommandations\": \"Recommandations\",\n  \"recommandations\": [\n    \"✓ Vérifiez que l'adresse du RIB est la même que le restaurant sinon refaire l'automatisation en remplissant le champs adresse du restaurant\",\n    \"✓ Vérifiez que le document est bien lisible et de bonne qualité\",\n    \"✓ Vérifiez que le nom de l'entreprise sur le RIB ou le KBIS est clairement mentionné\",\n    \"✓ Vérifiez la qualité/lisibilité de votre RIB (scan HD ou PDF)\",\n    \"✓ Vérifiez la qualité de votre KBIS (évitez les photos floues)\",\n    \"✓ Assurez-vous d'utiliser de vrais documents (pas de données de test)\",\n    \"✓ Si toutes ces vérifications sont faites relancer l'automatisation une deuxième fois\"\n  ]\n}",
+              "type": "object"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        5152,
+        880
+      ],
+      "id": "73127418-4005-4ed2-9e46-9ef3caae8897",
+      "name": "38_SET_ALERTE_TRUE"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "05d7dd9d-4e22-4c80-ad54-710175530546",
+              "name": "validation",
+              "value": "{   \"qualite_ok\": true,   \"alerte\": false,   \"message_alerte\": null,   \"champs_problematiques\": [],   \"recommandations\": [] }",
+              "type": "object"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        5152,
+        640
+      ],
+      "id": "2b7bc572-1349-4f23-bf8f-fadc6c9dafa8",
+      "name": "38_SET_ALERTE_FALSE"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        5376,
+        752
+      ],
+      "id": "c00fbb77-6efa-41f4-bbb7-6ba73bba2a3f",
+      "name": "39_MERGE_RESPONSES"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "589bd219-d177-4973-a9e1-832d9aecac7d",
+              "name": "NUMERO_CONTRAT",
+              "value": "={{ $json.new_numero }}",
+              "type": "string"
+            },
+            {
+              "id": "2f214482-30d3-4bb0-bcd3-0fd2acb6626f",
+              "name": "NAME",
+              "value": "={{ $json.name }}",
+              "type": "string"
+            },
+            {
+              "id": "4a5989d3-e3ab-4ec6-970b-e400b2254cd9",
+              "name": "ID",
+              "value": "={{ $json.id }}",
+              "type": "string"
+            },
+            {
+              "id": "73e58a8f-b293-4886-b445-e7ef4111cf88",
+              "name": "Denomination_sociale",
+              "value": "={{ $('35_GENERER_INFOS_CONTRAT_SEPA').item.json.message.content[\"Dénomination_Sociale\"] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        5968,
+        592
+      ],
+      "id": "3b06486d-40e3-4ac9-a984-777223d7d070",
+      "name": "Prepare_Contract_Data1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f7c293b3-ab77-41dc-9d81-bdd08d751163",
+              "name": "Alertes",
+              "value": "={{ $json.validation.message_alerte }}\n\n{{ $json.validation.champs_problematiques }}\n\n{{ $json.validation.recommandations }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        6928,
+        416
+      ],
+      "id": "b979341b-a8f3-4dcc-9073-dbaa0f143f89",
+      "name": "Clean_alertes"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        7472,
+        720
+      ],
+      "id": "78278cea-2d78-4ba4-941e-9421701c2f79",
+      "name": "Merge"
+    }
+  ],
+  "pinData": {
+    "36_Copy_Template1": [
+      {
+        "json": {
+          "kind": "drive#file",
+          "id": "14uJyJrwpgowmZrWg_ZYdy8N6TIL68D2Nt7Kgy29SrFY",
+          "name": "CONTRAT - FA2L RESTAURATION - 22/11/2025 - 33 AVENUE ANDRE MARIE AMPERE, 77420 CHAMPS-SUR-MARNE, FRANCE",
+          "mimeType": "application/vnd.google-apps.document"
+        }
+      }
+    ],
+    "1_Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "n8n.srv856796.hstgr.cloud",
+            "user-agent": "node",
+            "content-length": "398503",
+            "accept": "*/*",
+            "accept-encoding": "identity",
+            "accept-language": "*",
+            "cache-control": "no-cache",
+            "content-type": "multipart/form-data; boundary=----WebKitFormBoundaryn9Y0iQ6A2dJIxA1x",
+            "pragma": "no-cache",
+            "sec-fetch-mode": "cors",
+            "x-forwarded-for": "35.175.19.243",
+            "x-forwarded-host": "n8n.srv856796.hstgr.cloud",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "ae30b2dac8a7",
+            "x-real-ip": "35.175.19.243",
+            "x-v0-dev": "true",
+            "x-vercel-id": "cdg1::gr2bb-1764842218925-1c84364be8cc"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "adresse_restaurant": "",
+            "prix_mensuel": "300"
+          },
+          "webhookUrl": "https://n8n.srv856796.hstgr.cloud/webhook/caf26929-d0be-40a5-ad44-60620abf1969",
+          "executionMode": "production"
+        }
+      }
+    ],
+    "Prepare_Contract_Data": [
+      {
+        "json": {
+          "kind": "drive#file",
+          "id": "1UeKHZeKLGR1J3OXATvkZpE7e9uXtb1anxW0h_bPA_b0",
+          "name": "CONTRAT - JEAN DUPONT - 04/12/2025 - 12 RUE DE LA PAIX - 75001 - PARIS - FRANCE",
+          "mimeType": "application/vnd.google-apps.document",
+          "contenu_texte": "{\"index\":0,\"message\":{\"role\":\"assistant\",\"content\":{\"Dénomination_Sociale\":\"JEAN DUPONT\",\"Forme_juridique\":\"Non spécifiée\",\"Numéro_SIREN\":\"NON_TROUVE\",\"Numéro_SIRET\":\"NON_TROUVE\",\"RCS_ville\":\"NON_TROUVE\",\"Adresse_du_siège_social\":\"12 RUE DE LA PAIX - 75001 - PARIS - FRANCE\",\"prix_en_chiffre\":\"300\",\"prix_en_lettre\":\"trois cents euros\",\"DEBTOR_NAME\":\"JEAN DUPONT\",\"DEBTOR_ADDRESS\":\"12 RUE DE LA PAIX\",\"DEBTOR_POSTAL_CODE\":\"75001\",\"DEBTOR_CITY\":\"PARIS\",\"IBAN\":\"FR7612345678901234567890123\",\"BIC\":\"QNTOFRP1XXX\",\"SIGNATURE_DATE\":\"04/12/2025\",\"CONTRACT_NUMBER\":\"SAV-20251204-0001\"},\"refusal\":null,\"annotations\":[]},\"logprobs\":null,\"finish_reason\":\"stop\"}",
+          "validation": {
+            "qualite_ok": false,
+            "alerte": true,
+            "message_alerte": "⚠️ ATTENTION : Des données sont incomplètes ou suspectes détectées",
+            "champs_problematiques": [
+              "❌ Dénomination sociale suspecte (données de test détectées)",
+              "❌ Forme juridique non spécifiée",
+              "❌ Numéro SIREN non trouvé",
+              "❌ Numéro SIRET non trouvé",
+              "❌ RCS ville non trouvé"
+            ],
+            "recommandations": [
+              "✓ Vérifiez la qualité/lisibilité de votre RIB (scan HD ou PDF)",
+              "✓ Vérifiez que l'adresse du restaurant est correcte",
+              "✓ Vérifiez la qualité de votre KBIS (évitez les photos floues)",
+              "✓ Assurez-vous d'utiliser de vrais documents (pas de données de test)"
+            ]
+          },
+          "last_numero": "20260000000000000068",
+          "new_numero": "20260000000000000069",
+          "NUMERO_CONTRAT": "20260000000000000069",
+          "NAME": "CONTRAT - JEAN DUPONT - 04/12/2025 - 12 RUE DE LA PAIX - 75001 - PARIS - FRANCE",
+          "ID": "1UeKHZeKLGR1J3OXATvkZpE7e9uXtb1anxW0h_bPA_b0",
+          "Denomination_sociale": "JEAN DUPONT"
+        }
+      }
+    ],
+    "42_Insertrow_BDD": [
+      {
+        "json": {
+          "NUMERO_CONTRAT_STRING": "20260000000000000070",
+          "NAME": "CONTRAT - JEAN DUPONT - 04/12/2025 - 12 RUE DE LA PAIX - 75001 - PARIS - FRANCE",
+          "Address": "JEAN DUPONT",
+          "id": 71,
+          "createdAt": "2025-12-04T10:15:59.198Z",
+          "updatedAt": "2025-12-04T10:15:59.198Z"
+        }
+      }
+    ],
+    "37_CONTRAT_SEPA_V3": [
+      {
+        "json": {
+          "occurrencesChanged": 1,
+          "documentId": "1nZpxUjgm1SIj_0gmt1uX425afRW7_GL9PnJmVkMWq70"
+        }
+      }
+    ],
+    "39_Upload_pdf": [
+      {
+        "json": {
+          "kind": "drive#file",
+          "id": "1Mp38cLGP4Kq0JUrb1PefAtWoDqq0RwZA",
+          "name": "Contrat Savour : JEAN DUPONT",
+          "mimeType": "application/pdf",
+          "starred": false,
+          "trashed": false,
+          "explicitlyTrashed": false,
+          "parents": [
+            "16hu3UGVwmuQmR94FZZj3XXJ2GFmk15fO"
+          ],
+          "spaces": [
+            "drive"
+          ],
+          "version": "2",
+          "webContentLink": "https://drive.google.com/uc?id=1Mp38cLGP4Kq0JUrb1PefAtWoDqq0RwZA&export=download",
+          "webViewLink": "https://drive.google.com/file/d/1Mp38cLGP4Kq0JUrb1PefAtWoDqq0RwZA/view?usp=drivesdk",
+          "iconLink": "https://drive-thirdparty.googleusercontent.com/16/type/application/pdf",
+          "hasThumbnail": false,
+          "thumbnailVersion": "0",
+          "viewedByMe": false,
+          "createdTime": "2025-12-04T10:16:02.459Z",
+          "modifiedTime": "2025-12-04T10:16:03.388Z",
+          "modifiedByMeTime": "2025-12-04T10:16:03.388Z",
+          "modifiedByMe": true,
+          "owners": [
+            {
+              "kind": "drive#user",
+              "displayName": "Etienne fantauzzo",
+              "photoLink": "https://lh3.googleusercontent.com/a/ACg8ocLW4FbdWlowZBg-Rh6qqtR3DM7fTq2RQlnuRAHOKnhEGLhVBBR8=s64",
+              "me": true,
+              "permissionId": "14932978480700136584",
+              "emailAddress": "e.brocafantauzzo@gmail.com"
+            }
+          ],
+          "lastModifyingUser": {
+            "kind": "drive#user",
+            "displayName": "Etienne fantauzzo",
+            "photoLink": "https://lh3.googleusercontent.com/a/ACg8ocLW4FbdWlowZBg-Rh6qqtR3DM7fTq2RQlnuRAHOKnhEGLhVBBR8=s64",
+            "me": true,
+            "permissionId": "14932978480700136584",
+            "emailAddress": "e.brocafantauzzo@gmail.com"
+          },
+          "shared": false,
+          "ownedByMe": true,
+          "downloadRestrictions": {
+            "itemDownloadRestriction": {
+              "restrictedForReaders": false,
+              "restrictedForWriters": false
+            },
+            "effectiveDownloadRestrictionWithContext": {
+              "restrictedForReaders": false,
+              "restrictedForWriters": false
+            }
+          },
+          "capabilities": {
+            "canAcceptOwnership": false,
+            "canAddChildren": false,
+            "canAddMyDriveParent": false,
+            "canChangeCopyRequiresWriterPermission": true,
+            "canChangeItemDownloadRestriction": true,
+            "canChangeSecurityUpdateEnabled": false,
+            "canChangeViewersCanCopyContent": true,
+            "canComment": true,
+            "canCopy": true,
+            "canDelete": true,
+            "canDisableInheritedPermissions": false,
+            "canDownload": true,
+            "canEdit": true,
+            "canEnableInheritedPermissions": true,
+            "canListChildren": false,
+            "canModifyContent": true,
+            "canModifyContentRestriction": true,
+            "canModifyEditorContentRestriction": true,
+            "canModifyOwnerContentRestriction": true,
+            "canModifyLabels": false,
+            "canMoveChildrenWithinDrive": false,
+            "canMoveItemIntoTeamDrive": true,
+            "canMoveItemOutOfDrive": true,
+            "canMoveItemWithinDrive": true,
+            "canReadLabels": false,
+            "canReadRevisions": true,
+            "canRemoveChildren": false,
+            "canRemoveContentRestriction": false,
+            "canRemoveMyDriveParent": true,
+            "canRename": true,
+            "canShare": true,
+            "canTrash": true,
+            "canUntrash": true
+          },
+          "viewersCanCopyContent": true,
+          "copyRequiresWriterPermission": false,
+          "writersCanShare": true,
+          "permissions": [
+            {
+              "kind": "drive#permission",
+              "id": "14932978480700136584",
+              "type": "user",
+              "emailAddress": "e.brocafantauzzo@gmail.com",
+              "role": "owner",
+              "displayName": "e.brocafantauzzo",
+              "deleted": false,
+              "pendingOwner": false
+            }
+          ],
+          "permissionIds": [
+            "14932978480700136584"
+          ],
+          "originalFilename": "Contrat Savour : JEAN DUPONT",
+          "fullFileExtension": "",
+          "fileExtension": "",
+          "md5Checksum": "ab516d9a277f8a5310b5f4c245d16582",
+          "sha1Checksum": "2109d530ead4b4f4f048d0c334c37a7ab49e3739",
+          "sha256Checksum": "96ca6cc8bc242784454b3f1b55e44573d86da1142329e2ba320469d65783c0b0",
+          "size": "307367",
+          "quotaBytesUsed": "307367",
+          "headRevisionId": "0BwBmCpAual4RY0ovY3F5QUp5TlJKOXlBRlE5cDdNWTBrU0ZnPQ",
+          "isAppAuthorized": true,
+          "linkShareMetadata": {
+            "securityUpdateEligible": false,
+            "securityUpdateEnabled": true
+          },
+          "inheritedPermissionsDisabled": false
+        }
+      }
+    ]
+  },
+  "connections": {
+    "1_Webhook": {
+      "main": [
+        [
+          {
+            "node": "01_set_prix",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "02_switch-KBIS_OK_or_NOT_OK",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "03_set_prix",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "3p_SET_PRIX1": {
+      "main": [
+        [
+          {
+            "node": "31_MERGE_KBIS_RIB",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "02_switch-KBIS_OK_or_NOT_OK": {
+      "main": [
+        [
+          {
+            "node": "04_Switch_KBIS_OK",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "05_Switch_NOT_KBIS",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "03_set_prix": {
+      "main": [
+        [
+          {
+            "node": "18_SET_PRIX",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "01_set_prix": {
+      "main": [
+        [
+          {
+            "node": "3p_SET_PRIX1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "04_Switch_KBIS_OK": {
+      "main": [
+        [
+          {
+            "node": "06_PDF_KBIS_vers_Texte",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "07_PDF_RIB_Extract",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "06_PDF_KBIS_vers_Texte": {
+      "main": [
+        [
+          {
+            "node": "14_SET_KBIS",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "07_PDF_RIB_Extract": {
+      "main": [
+        [
+          {
+            "node": "12_RIB_PDF_SEPA1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "08_RIB_PDF_Extract": {
+      "main": [
+        [
+          {
+            "node": "12_RIB_IMAGE_SEPA",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "09_RIB_Image_Extract_GPT": {
+      "main": [
+        [
+          {
+            "node": "11_RIB_PDF_SEPA1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "05_Switch_NOT_KBIS": {
+      "main": [
+        [
+          {
+            "node": "08_RIB_PDF_Extract",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "09_RIB_Image_Extract_GPT",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "14_SET_KBIS": {
+      "main": [
+        [
+          {
+            "node": "25_KBIS_MAPING",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "15_SET_RIB_from_PDF": {
+      "main": [
+        [
+          {
+            "node": "17_MERGE_RIB_NOT_KBIS",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "16_SET_RIB_from_IMAGE": {
+      "main": [
+        [
+          {
+            "node": "17_MERGE_RIB_NOT_KBIS",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "17_MERGE_RIB_NOT_KBIS": {
+      "main": [
+        [
+          {
+            "node": "19_MERGE_RIB_PRIX_ADDRESS",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "18_SET_PRIX": {
+      "main": [
+        [
+          {
+            "node": "19_MERGE_RIB_PRIX_ADDRESS",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "19_MERGE_RIB_PRIX_ADDRESS": {
+      "main": [
+        [
+          {
+            "node": "20_Prepare_Perplexity_Query",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "20_Prepare_Perplexity_Query": {
+      "main": [
+        [
+          {
+            "node": "21_Switch_rules_adresse",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "21_Switch_rules_adresse": {
+      "main": [
+        [
+          {
+            "node": "22_Adresse_restaurant",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "23_Adresse_rib",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "22_Adresse_restaurant": {
+      "main": [
+        [
+          {
+            "node": "24_Fusion_adresse",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "23_Adresse_rib": {
+      "main": [
+        [
+          {
+            "node": "24_Fusion_adresse",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "24_Fusion_adresse": {
+      "main": [
+        [
+          {
+            "node": "29_SET_RIB",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "26_Perplexity_find_KBIS",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "11_RIB_PDF_SEPA1": {
+      "main": [
+        [
+          {
+            "node": "16_SET_RIB_from_IMAGE",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "12_RIB_IMAGE_SEPA": {
+      "main": [
+        [
+          {
+            "node": "15_SET_RIB_from_PDF",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "25_KBIS_MAPING": {
+      "main": [
+        [
+          {
+            "node": "27_SET_KBIS",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "26_Perplexity_find_KBIS": {
+      "main": [
+        [
+          {
+            "node": "30_SET_KBIS",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "27_SET_KBIS": {
+      "main": [
+        [
+          {
+            "node": "31_MERGE_KBIS_RIB",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "28_SET_RIB": {
+      "main": [
+        [
+          {
+            "node": "31_MERGE_KBIS_RIB",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    },
+    "29_SET_RIB": {
+      "main": [
+        [
+          {
+            "node": "32_MERGE_RIB_SCRAPPING",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "30_SET_KBIS": {
+      "main": [
+        [
+          {
+            "node": "32_MERGE_RIB_SCRAPPING",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "31_MERGE_KBIS_RIB": {
+      "main": [
+        [
+          {
+            "node": "33_DATA_FINAL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "32_MERGE_RIB_SCRAPPING": {
+      "main": [
+        [
+          {
+            "node": "33_DATA_FINAL",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "33_DATA_FINAL": {
+      "main": [
+        [
+          {
+            "node": "34_SET_FINAL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "35_GENERER_INFOS_CONTRAT_SEPA": {
+      "main": [
+        [
+          {
+            "node": "36_Copy_Template1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "40_Get_All_Contracts",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "34_SET_FINAL": {
+      "main": [
+        [
+          {
+            "node": "35_GENERER_INFOS_CONTRAT_SEPA",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "12_RIB_PDF_SEPA1": {
+      "main": [
+        [
+          {
+            "node": "28_SET_RIB",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "37_CONTRAT_SEPA_V3": {
+      "main": [
+        [
+          {
+            "node": "38_Download_pdf",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "36_Copy_Template1": {
+      "main": [
+        [
+          {
+            "node": "Merge_Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "38_Download_pdf": {
+      "main": [
+        [
+          {
+            "node": "39_Upload_pdf",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "39_Upload_pdf": {
+      "main": [
+        [
+          {
+            "node": "40_Share_pdf",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "40_Share_pdf": {
+      "main": [
+        []
+      ]
+    },
+    "40_Get_All_Contracts": {
+      "main": [
+        [
+          {
+            "node": "41_Calculate_New_Number",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "41_Calculate_New_Number": {
+      "main": [
+        [
+          {
+            "node": "Merge_Data",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    },
+    "42_Insertrow_BDD": {
+      "main": [
+        [
+          {
+            "node": "37_CONTRAT_SEPA_V3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare_Contract_Data": {
+      "main": [
+        [
+          {
+            "node": "Clean_alertes",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "42_Insertrow_BDD",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge_Data": {
+      "main": [
+        [
+          {
+            "node": "Prepare_Contract_Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "37_DETECT_ERREURS",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "37_DETECT_ERREURS": {
+      "main": [
+        [
+          {
+            "node": "38_SET_ALERTE_FALSE",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "38_SET_ALERTE_TRUE",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "38_SET_ALERTE_FALSE": {
+      "main": [
+        [
+          {
+            "node": "39_MERGE_RESPONSES",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "38_SET_ALERTE_TRUE": {
+      "main": [
+        [
+          {
+            "node": "39_MERGE_RESPONSES",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "39_MERGE_RESPONSES": {
+      "main": [
+        [
+          {
+            "node": "Merge_Data",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Clean_alertes": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false,
+    "timeSavedPerExecution": 40
+  },
+  "versionId": "4efcc545-3aec-4830-85f8-d84b18a084be",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "316a125cfd580042f9bc53fd60563ce45811f60464f819f6c6d8edfb9bec8e89"
+  },
+  "id": "shgcXqeRkq9BLyt8",
+  "tags": []
+}

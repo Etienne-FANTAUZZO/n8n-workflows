@@ -1,0 +1,477 @@
+{
+  "name": "Marie_Thibault",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "37fc565e-1adb-4d50-a0fa-ae4b3b19eb10",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -528,
+        768
+      ],
+      "id": "f579ee02-51e6-4483-a113-5f27d3268f4d",
+      "name": "1_Webhook",
+      "webhookId": "37fc565e-1adb-4d50-a0fa-ae4b3b19eb10"
+    },
+    {
+      "parameters": {
+        "content": "",
+        "height": 2064,
+        "width": 7232,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1360,
+        -224
+      ],
+      "id": "fc5ac934-f011-4655-84ad-e316f5c2b5ca",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "respondWith": "allIncomingItems",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        1248,
+        624
+      ],
+      "id": "594ac438-e741-4751-98f9-6220c92f8a58",
+      "name": "Respond to Webhook3",
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "dataTableId": {
+          "__rl": true,
+          "value": "pAuixp9Q1nU8kGfy",
+          "mode": "list",
+          "cachedResultName": "MARIAGE_MARIE_THIBAULT",
+          "cachedResultUrl": "/projects/PF9ydpn7gWt8T8s2/datatables/pAuixp9Q1nU8kGfy"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "NOM": "={{ $json.nom }}",
+            "PRENOM": "={{ $json.prenom }}",
+            "PRESENCE": "={{ $json.presence }}",
+            "Nombre_accompagnants": "={{ $json.nombre_accompagnant }}",
+            "Regime_alimentaire": "={{ $json.regime_alimentaire }}",
+            "Chanson": "={{ $json.chanson }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "NOM",
+              "displayName": "NOM",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "PRENOM",
+              "displayName": "PRENOM",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "PRESENCE",
+              "displayName": "PRESENCE",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Nombre_accompagnants",
+              "displayName": "Nombre_accompagnants",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Regime_alimentaire",
+              "displayName": "Regime_alimentaire",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Chanson",
+              "displayName": "Chanson",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1,
+      "position": [
+        96,
+        768
+      ],
+      "id": "4a227591-e438-4968-a1fd-64a77e6c3173",
+      "name": "Insert row"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "07abe252-ef99-41db-957d-9b8b93efc8fb",
+              "name": "nom",
+              "value": "={{ $json.body.lastName }}",
+              "type": "string"
+            },
+            {
+              "id": "b51545c4-c9ae-4ebd-8c26-e3e3f6e07c01",
+              "name": "prenom",
+              "value": "={{ $json.body.firstName }}",
+              "type": "string"
+            },
+            {
+              "id": "f73f92e8-a09e-4284-afe2-35545e7d5bc0",
+              "name": "presence",
+              "value": "={{ $json.body.attendance }}",
+              "type": "string"
+            },
+            {
+              "id": "4390bae4-4e25-4496-93e0-f9ec4a671d5b",
+              "name": "nombre_accompagnant",
+              "value": "={{ $json.body.guestCount }}",
+              "type": "string"
+            },
+            {
+              "id": "4779c71f-e117-45b9-9e31-b570f3d6b5d0",
+              "name": "regime_alimentaire",
+              "value": "={{ $json.body.dietary }}",
+              "type": "string"
+            },
+            {
+              "id": "22738372-5c19-45e7-b7ef-d53d4540734f",
+              "name": "chanson",
+              "value": "={{ $json.body.song }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -192,
+        768
+      ],
+      "id": "c1a9521c-75fa-4d80-898d-cc8f4c90ba23",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.PRESENCE }}",
+                    "rightValue": "yes",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    },
+                    "id": "c9da4ee0-0f40-403a-9bd1-d49cf8e5f89c"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "OUI"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "2d99345b-628c-45d4-af2e-07fd50dfc8a6",
+                    "leftValue": "={{ $json.PRESENCE }}",
+                    "rightValue": "no",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "NON"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.3,
+      "position": [
+        480,
+        768
+      ],
+      "id": "b67d80cf-5674-42f9-a654-f654e086d3c9",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "sendTo": "e.brocafantauzzo@gmail.com",
+        "subject": "Encore un particpant",
+        "message": "=Hello Marie et Thibault, \n\n{{ $json.PRENOM }} {{ $json.NOM }} particpera avec {{ $json.Nombre_accompagnants }} personne(s) à votre mariage.\n\nvoici les informations importantes à retenir : \n\nRegime alimentaire : {{ $json.Regime_alimentaire }}\nChanson préférée : {{ $json.Chanson }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        784,
+        608
+      ],
+      "id": "9cc1926a-7262-447e-8c28-a23b4cd7fd01",
+      "name": "Send a message",
+      "webhookId": "a9b0a441-31f3-42b5-9d73-a458cb1173b4",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "9hbUDqICfPFaQsx6",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "e.brocafantauzzo@gmail.com",
+        "subject": "=Mariage : malheureusement  {{ $json.PRENOM }} ne sera pas là",
+        "message": "=  Hello Marie et Thibault,  {{ $json.PRENOM  }} {{ $json.NOM }} ne sera pas présent à votre mariage",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        768,
+        864
+      ],
+      "id": "7849ad07-5261-4ae9-a551-2bc2c43fd1ba",
+      "name": "Send a message1",
+      "webhookId": "c9a18dc1-8bcf-4a1e-ba8f-13a997dc57c2",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "9hbUDqICfPFaQsx6",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {
+    "1_Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "n8n.srv856796.hstgr.cloud",
+            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",
+            "content-length": "127",
+            "accept": "*/*",
+            "accept-encoding": "gzip, deflate, br, zstd",
+            "accept-language": "fr-FR,fr;q=0.9,en-US;q=0.8,en;q=0.7",
+            "content-type": "application/json",
+            "origin": "https://preview-wedding-website-script-kzmh4qucv77nl79otdu4.vusercontent.net",
+            "priority": "u=1, i",
+            "referer": "https://preview-wedding-website-script-kzmh4qucv77nl79otdu4.vusercontent.net/",
+            "sec-ch-ua": "\"Chromium\";v=\"142\", \"Google Chrome\";v=\"142\", \"Not_A Brand\";v=\"99\"",
+            "sec-ch-ua-mobile": "?0",
+            "sec-ch-ua-platform": "\"Windows\"",
+            "sec-fetch-dest": "empty",
+            "sec-fetch-mode": "cors",
+            "sec-fetch-site": "cross-site",
+            "x-forwarded-for": "172.20.0.1",
+            "x-forwarded-host": "n8n.srv856796.hstgr.cloud",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "93adf0c92cb1",
+            "x-real-ip": "172.20.0.1"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "lastName": "TEST NOM",
+            "firstName": "TEST  PRENOM",
+            "attendance": "yes",
+            "guestCount": "1",
+            "dietary": "non",
+            "song": "Riles thank god"
+          },
+          "webhookUrl": "https://n8n.srv856796.hstgr.cloud/webhook/37fc565e-1adb-4d50-a0fa-ae4b3b19eb10",
+          "executionMode": "production"
+        }
+      }
+    ],
+    "Edit Fields": [
+      {
+        "json": {
+          "nom": "Fantauzzo",
+          "prenom": "Etienne",
+          "presence": "yes",
+          "nombre_accompagnant": "0",
+          "regime_alimentaire": "tomate",
+          "chanson": "celine"
+        }
+      }
+    ],
+    "Insert row": [
+      {
+        "json": {
+          "NOM": "Fantauzzo",
+          "PRENOM": "Etienne",
+          "PRESENCE": "yes",
+          "Nombre_accompagnants": "0",
+          "Regime_alimentaire": "tomate",
+          "Chanson": "celine",
+          "id": 3,
+          "createdAt": "2025-11-28T05:41:48.666Z",
+          "updatedAt": "2025-11-28T05:41:48.666Z"
+        }
+      }
+    ],
+    "Switch": [
+      {
+        "json": {
+          "NOM": "Fantauzzo",
+          "PRENOM": "Etienne",
+          "PRESENCE": "yes",
+          "Nombre_accompagnants": "0",
+          "Regime_alimentaire": "tomate",
+          "Chanson": "celine",
+          "id": 3,
+          "createdAt": "2025-11-28T05:41:48.666Z",
+          "updatedAt": "2025-11-28T05:41:48.666Z"
+        }
+      }
+    ]
+  },
+  "connections": {
+    "1_Webhook": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Insert row": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Insert row",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send a message1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false,
+    "timeSavedPerExecution": 40
+  },
+  "versionId": "6f59c011-3ce9-4f19-a4d2-b2626789b9fe",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "316a125cfd580042f9bc53fd60563ce45811f60464f819f6c6d8edfb9bec8e89"
+  },
+  "id": "JPcDBGdClt5v5tAD",
+  "tags": []
+}
